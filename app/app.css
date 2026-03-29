@@ -1,0 +1,61 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans:
+    "Inter", "ui-sans-serif", "system-ui", "sans-serif", "Apple Color Emoji",
+    "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  --color-primary: #481324;
+  --color-white: #fff;
+  --color-accent: #ebdbcb;
+  --font-proxima: Proxima Nova;
+  --font-plusjakarta: Plus Jakarta;
+  --font-ralesha: Ralesha;
+  --font-streamline: Streamline Moderne;
+
+  --breakpoint-xs: 580px;
+  --breakpoint-xxs: 380px;
+}
+
+@media screen and (max-width: 576px) {
+  .container {
+    max-width: 100% !important;
+  }
+}
+
+@font-face {
+  font-family: Proxima Nova;
+  src: url("./fonts/proximanovacond-regular.otf");
+}
+@font-face {
+  font-family: Plus Jakarta;
+  src: url("./fonts/PlusJakartaDisplay-Regular.otf");
+}
+@font-face {
+  font-family: Ralesha;
+  src: url("./fonts/Ralesha.ttf");
+}
+@font-face {
+  font-family: Streamline Moderne;
+  src: url("./fonts/streamline-moderne.ttf");
+}
+
+/* ansoumante bar */
+
+.ansoumantebar .swiper-slide {
+  width: auto !important;
+}
+
+.bg-shine-gradient {
+  background-image: linear-gradient(
+    45deg,
+    transparent,
+    #ffffff8f,
+    #ffffff,
+    #ffffff8f,
+    transparent
+  );
+}
+
+.CelebPicks .swiper-slide {
+  height: auto !important;
+}

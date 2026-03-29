@@ -1,0 +1,809 @@
+const heroCollectionQuery = `
+  query GetHeroCollection{
+    shop {
+      heroCollection: metafield(namespace: "custom", key: "collection_list") {
+        value
+      }
+    }
+}`;
+
+export const collectionsByIdsQuery = (ids) => `
+  query {
+    nodes(ids: ${JSON.stringify(ids)}) {
+      ... on Collection {
+        id
+        title
+        handle
+        image {
+          url
+        }
+      }
+    }
+  }
+`;
+
+export const collectionByHandleQuery = `
+  query GetCollection($handle: String!) {
+    collectionByHandle(handle: $handle) {
+      id
+      title
+      description
+      image {
+        url
+        altText
+      }
+      products(first: 20) {
+        edges {
+          node {
+            id
+            title
+            handle
+            featuredImage {
+              url
+              altText
+            }
+            priceRange {
+              minVariantPrice {
+                amount
+                currencyCode
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+`;
+
+export const productByHandleQuery = `
+  query GetProduct($handle: String!) {
+    productByHandle(handle: $handle) {
+      id
+      title
+      description
+      vendor
+      tags
+      featuredImage {
+        url
+        altText
+      }
+      images(first: 10) {
+        edges {
+          node {
+            url
+            altText
+          }
+        }
+      }
+      priceRange {
+        minVariantPrice {
+          amount
+          currencyCode
+        }
+        maxVariantPrice {
+          amount
+          currencyCode
+        }
+      }
+      variants(first: 20) {
+        edges {
+          node {
+            id
+            title
+            availableForSale
+            price {
+              amount
+              currencyCode
+            }
+            compareAtPrice {
+              amount
+              currencyCode
+            }
+            selectedOptions {
+              name
+              value
+            }
+            image {
+              url
+              altText
+            }
+          }
+        }
+      }
+    }
+  }
+`;
+
+export const offerBannerQuery = `
+  query GetOfferBanner {
+     metaobjects(type: "offer_banner", first: 5) {
+    nodes {
+      id
+      
+      title: field(key: "offer_title") {
+        value
+      }
+
+      discount: field(key: "discount_text") {
+        value
+      }
+
+      buttonLabel: field(key: "button_label") {
+        value
+      }
+
+      buttonLink: field(key: "button_link") {
+        value
+      }
+    } 
+   } 
+  }
+`;
+
+export const heroBannerQuery = `
+query HeroBanner {
+  metaobjects(type: "hero_banner", first: 1) {
+    nodes {
+      id
+      heading: field(key: "heading") {
+        value
+      }
+      discount: field(key: "discount") {
+        value
+      }
+      buttonLabel: field(key: "button_label") {
+        value
+      }
+      buttonLink: field(key: "button_link") {
+        value
+      }
+      leftImage: field(key: "left_image") {
+        reference {
+          ... on MediaImage {
+            image {
+              url
+            }
+          }
+        }
+      }
+      centerImage: field(key: "center_image") {
+        reference {
+          ... on MediaImage {
+            image {
+              url
+            }
+          }
+        }
+      }
+      rightImage: field(key: "right_image") {
+        reference {
+          ... on MediaImage {
+            image {
+              url
+            }
+          }
+        }
+      }
+    }
+  }
+}
+`;
+
+export const shopCategoriesQuery = `
+query ShopCategories {
+  metaobjects(type: "shop_category", first: 10) {
+    nodes {
+      id
+
+      title: field(key: "title") {
+        value
+      }
+
+      image: field(key: "image") {
+        reference {
+          ... on MediaImage {
+            image {
+              url(transform: { maxWidth: 600 })
+            }
+          }
+        }
+      }
+
+      collection: field(key: "collection") {
+        reference {
+          ... on Collection {
+            handle
+          }
+        }
+      }
+    }
+  }
+}
+`;
+
+export const customerReviewsQuery = `
+  query CustomerReviews {
+    metaobjects(type: "customer_review", first: 1) {
+      nodes {
+        id
+        reviewText: field(key: "review_text") {
+          value
+        }
+        reviewerName: field(key: "customer_name") {
+          value
+        }
+      }
+    }
+  }
+`;
+
+// Celeb Picks
+
+export const celebPicksQuery = `
+  query CelebPicks {
+    metaobjects(type: "celeb_picks", first: 1) {
+      nodes {
+        id
+        title: field(key: "title") {
+          value
+        }
+        images: field(key: "images") {
+          references(first: 10) {
+            nodes {
+              ... on MediaImage {
+                image {
+                  url(transform: { maxWidth: 600 })
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }`;
+
+// New arival query
+export const newArrivalQuery = `
+  query JewelleryOrganiserBox {
+    metaobjects(type: "product_showcase_1", first: 1) {
+      nodes {
+        id
+
+        title: field(key: "title") {
+          value
+        }
+
+        product1: field(key: "product_1") {
+          reference {
+            ... on Product {
+              id
+              title
+              handle
+              featuredImage {
+                url
+                altText
+              }
+              priceRange {
+                minVariantPrice {
+                  amount
+                  currencyCode
+                }
+              }
+            }
+          }
+        }
+
+        product2: field(key: "product_2") {
+          reference {
+            ... on Product {
+              id
+              title
+              handle
+              featuredImage {
+                url
+                altText
+              }
+              priceRange {
+                minVariantPrice {
+                  amount
+                  currencyCode
+                }
+              }
+            }
+          }
+        }
+
+        product3: field(key: "product_3") {
+          reference {
+            ... on Product {
+              id
+              title
+              handle
+              featuredImage {
+                url
+                altText
+              }
+              priceRange {
+                minVariantPrice {
+                  amount
+                  currencyCode
+                }
+              }
+            }
+          }
+        }
+
+        product4: field(key: "product_4") {
+          reference {
+            ... on Product {
+              id
+              title
+              handle
+              featuredImage {
+                url
+                altText
+              }
+              priceRange {
+                minVariantPrice {
+                  amount
+                  currencyCode
+                }
+              }
+            }
+          }
+        }
+
+      }
+    }
+  }
+`;
+
+// Show earrings
+export const earRingsQuery = `
+  query earRingsCollection {
+  metaobjects(type: "product_showcase_2", first: 1) {
+      nodes {
+        id
+
+        title: field(key: "title") {
+          value
+        }
+
+        product1: field(key: "product_1") {
+          reference {
+            ... on Product {
+              id
+              title
+              handle
+              featuredImage {
+                url
+                altText
+              }
+              priceRange {
+                minVariantPrice {
+                  amount
+                  currencyCode
+                }
+              }
+            }
+          }
+        }
+
+        product2: field(key: "product_2") {
+          reference {
+            ... on Product {
+              id
+              title
+              handle
+              featuredImage {
+                url
+                altText
+              }
+              priceRange {
+                minVariantPrice {
+                  amount
+                  currencyCode
+                }
+              }
+            }
+          }
+        }
+
+        product3: field(key: "product_3") {
+          reference {
+            ... on Product {
+              id
+              title
+              handle
+              featuredImage {
+                url
+                altText
+              }
+              priceRange {
+                minVariantPrice {
+                  amount
+                  currencyCode
+                }
+              }
+            }
+          }
+        }
+
+        product4: field(key: "product_4") {
+          reference {
+            ... on Product {
+              id
+              title
+              handle
+              featuredImage {
+                url
+                altText
+              }
+              priceRange {
+                minVariantPrice {
+                  amount
+                  currencyCode
+                }
+              }
+            }
+          }
+        }
+
+      }
+    }
+  }`;
+
+// Show rings products showncase 3
+export const ringsQuery = `
+  query ringsCollection {
+  metaobjects(type: "product_showcase_3", first: 1) {
+      nodes {
+        id
+
+        title: field(key: "title") {
+          value
+        }
+
+        product1: field(key: "product_1") {
+          reference {
+            ... on Product {
+              id
+              title
+              handle
+              featuredImage {
+                url
+                altText
+              }
+              priceRange {
+                minVariantPrice {
+                  amount
+                  currencyCode
+                }
+              }
+            }
+          }
+        }
+
+        product2: field(key: "product_2") {
+          reference {
+            ... on Product {
+              id
+              title
+              handle
+              featuredImage {
+                url
+                altText
+              }
+              priceRange {
+                minVariantPrice {
+                  amount
+                  currencyCode
+                }
+              }
+            }
+          }
+        }
+
+        product3: field(key: "product_3") {
+          reference {
+            ... on Product {
+              id
+              title
+              handle
+              featuredImage {
+                url
+                altText
+              }
+              priceRange {
+                minVariantPrice {
+                  amount
+                  currencyCode
+                }
+              }
+            }
+          }
+        }
+
+        product4: field(key: "product_4") {
+          reference {
+            ... on Product {
+              id
+              title
+              handle
+              featuredImage {
+                url
+                altText
+              }
+              priceRange {
+                minVariantPrice {
+                  amount
+                  currencyCode
+                }
+              }
+            }
+          }
+        }
+
+      }
+    }
+  }`;
+
+// Jewellery Organiser Box
+export const jewelleryOrganiserBoxQuery = `
+  query JewelleryOrganiserBox {
+    metaobjects(type: "product_showcase_4", first: 1) {
+      nodes {
+        id
+
+        title: field(key: "title") {
+          value
+        }
+
+        product1: field(key: "product_1") {
+          reference {
+            ... on Product {
+              id
+              title
+              handle
+              featuredImage {
+                url
+                altText
+              }
+              priceRange {
+                minVariantPrice {
+                  amount
+                  currencyCode
+                }
+              }
+            }
+          }
+        }
+
+        product2: field(key: "product_2") {
+          reference {
+            ... on Product {
+              id
+              title
+              handle
+              featuredImage {
+                url
+                altText
+              }
+              priceRange {
+                minVariantPrice {
+                  amount
+                  currencyCode
+                }
+              }
+            }
+          }
+        }
+
+        product3: field(key: "product_3") {
+          reference {
+            ... on Product {
+              id
+              title
+              handle
+              featuredImage {
+                url
+                altText
+              }
+              priceRange {
+                minVariantPrice {
+                  amount
+                  currencyCode
+                }
+              }
+            }
+          }
+        }
+
+        product4: field(key: "product_4") {
+          reference {
+            ... on Product {
+              id
+              title
+              handle
+              featuredImage {
+                url
+                altText
+              }
+              priceRange {
+                minVariantPrice {
+                  amount
+                  currencyCode
+                }
+              }
+            }
+          }
+        }
+
+      }
+    }
+  }
+`;
+
+// Custome video review query
+
+export const clientVideoReviewQuery = `
+  query CustomerVideoReviews {
+    metaobjects(type: "customer_reviews_with_video", first: 1) {
+      nodes {
+        id
+
+        starReviews: field(key: "star_reviews") {
+          value
+        }
+
+        title: field(key: "title") {
+          value
+        }
+
+        reviewsVideo: field(key: "reviews_video") {
+          references(first: 10) {
+            nodes {
+            ... on Video {          # ✅ Changed from MediaVideo → Video
+                sources {
+                  url
+                  mimeType
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+`;
+
+// Shopbydesign query
+
+export const shopByDesignQuery = `
+  query ShopByDesign {
+    metaobjects(type:"shop_by_design", first: 1) {
+      nodes {
+        id
+
+        title: field(key: "section_title") {
+          value
+        }
+
+        card: field(key: "cards") {
+        references(first: 10) {
+            nodes {
+              ... on Metaobject {
+                title: field(key: "title") {
+                  value
+                }
+                subtitle: field(key: "subtitle") {
+                  value
+                }
+                image: field(key: "image") {
+                  reference {
+                    ... on MediaImage {
+                      image {
+                        url
+                        altText
+                      }
+                    }
+                  }
+                }
+
+                link: field(key: "Iink") {
+                  reference {
+                    ... on Collection {
+                      id
+                      title
+                      handle
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+`;
+
+// Shop by Occasion
+
+export const shopByOccasionQuery = `
+  query ShopByOccasion {
+    metaobjects(type:"shop_by_occasion", first: 1) {
+      nodes {
+        id
+
+        title: field(key: "section_title") {
+          value
+        }
+        button: field(key: "section_buttion") {
+          value
+        }
+        
+        url: field(key: "section_buttion_url") {
+          reference {
+            ... on Collection {
+              id
+              title
+              handle
+            }
+          }
+        }
+
+        card: field(key: "cards") {
+        references(first: 10) {
+            nodes {
+              ... on Metaobject {
+                title: field(key: "card_title") {
+                  value
+                }
+                image: field(key: "card_image") {
+                  reference {
+                    ... on MediaImage {
+                      image {
+                        url
+                        altText
+                      }
+                    }
+                  }
+                }
+
+                link: field(key: "card_url") {
+                  reference {
+                    ... on Collection {
+                      id
+                      title
+                      handle
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }  
+  }
+`;
+
+export {
+  heroCollectionQuery,
+  collectionsByIdsQuery,
+  collectionByHandleQuery,
+  productByHandleQuery,
+  offerBannerQuery,
+  heroBannerQuery,
+  shopCategoriesQuery,
+  celebPicksQuery,
+  customerReviewsQuery,
+  newArrivalQuery,
+  earRingsQuery,
+  ringsQuery,
+  jewelleryOrganiserBoxQuery,
+  clientVideoReviewQuery,
+  shopByDesignQuery,
+  shopByOccasionQuery,
+};
