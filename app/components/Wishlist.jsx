@@ -56,7 +56,7 @@ export default function Wishlist() {
 
               <div className="product_descriptions mt-2">
                 <p>
-                  <span className="product_name block text-black font-semibold">
+                  <span className="product_name block text-black font-semibold text-base md:text-lg">
                     {p.name}
                   </span>
                   <span className="product_name block text-[#747474]">

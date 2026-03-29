@@ -1,7 +1,6 @@
 import { Link } from "react-router";
 
 export const ShopByOccasion = ({ shopByOccasion }) => {
-  console.log("shopByOccasion", shopByOccasion);
   const title = shopByOccasion.title.value;
   const buttonLable = shopByOccasion.button.value;
   const buttonURL = shopByOccasion.url.reference.handle;

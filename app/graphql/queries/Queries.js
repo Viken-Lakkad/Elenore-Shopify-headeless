@@ -789,6 +789,51 @@ export const shopByOccasionQuery = `
   }
 `;
 
+// Shop by Occasion
+
+export const shopByGiftingGuide = `
+  query shopByGiftingGuide {
+    metaobjects(type:"elinor_gifting_guide", first: 1) {
+      nodes {
+        id
+      
+        title: field(key: "section_title") {
+          value
+        }
+
+        card: field(key: "cards") {  
+          references(first: 10) {
+            nodes {
+              ... on Metaobject {
+
+              image: field(key: "image") {
+                reference {
+                  ... on MediaImage {
+                    image {
+                      url
+                      altText
+                    }
+                  }
+                }
+              }
+
+              collection: field(key: "collection") {
+                  reference {
+                    ... on Collection {
+                      id
+                      title
+                      handle
+                    }
+                  }
+                }
+              }
+            }
+          }
+        } 
+      }
+    } 
+}`;
+
 export {
   heroCollectionQuery,
   collectionsByIdsQuery,
@@ -806,4 +851,5 @@ export {
   clientVideoReviewQuery,
   shopByDesignQuery,
   shopByOccasionQuery,
+  shopByGiftingGuide,
 };

@@ -29,7 +29,7 @@ export const OrganiserBox = ({ organiserBox }) => {
             </Link>
 
             <div className="product_descriptions mt-2">
-              <span className="product_name block text-black font-semibold">
+              <span className="product_name block text-black font-semibold text-base md:text-lg">
                 {product.title}
               </span>
 

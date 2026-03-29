@@ -31,6 +31,7 @@ import {
   clientVideoReviewQuery,
   shopByDesignQuery,
   shopByOccasionQuery,
+  shopByGiftingGuide,
 } from "../graphql/queries/Queries";
 
 export async function loader() {
@@ -51,7 +52,6 @@ export async function loader() {
   const offerBanner = offerBannerData.metaobjects?.nodes || [];
 
   const heroBannerData = await shopifyGraphQL(heroBannerQuery);
-
   const heroBanner = heroBannerData.metaobjects?.nodes?.[0] || null;
 
   const shopCategoriesData = await shopifyGraphQL(shopCategoriesQuery);
@@ -93,6 +93,12 @@ export async function loader() {
   // Shop by occasion data
   const shopByOccasionData = await shopifyGraphQL(shopByOccasionQuery);
   const shopByOccasion = shopByOccasionData?.metaobjects?.nodes[0] ?? null;
+
+  // Gifting Guide
+  const shopByGiftingGuideData = await shopifyGraphQL(shopByGiftingGuide);
+  const giftingGuideData =
+    shopByGiftingGuideData?.metaobjects?.nodes[0] ?? null;
+
   return {
     collections,
     offerBanner,
@@ -107,6 +113,7 @@ export async function loader() {
     clientVideoReviews,
     shopByDesign,
     shopByOccasion,
+    giftingGuideData,
   };
 }
 
@@ -132,7 +139,10 @@ export default function Home() {
     clientVideoReviews,
     shopByDesign,
     shopByOccasion,
+    giftingGuideData,
   } = useLoaderData();
+
+  // console.log("GiftingGuide-->",GiftingGuide);
 
   return (
     <>
@@ -150,8 +160,8 @@ export default function Home() {
       <OrganiserBox organiserBox={organiserBox} />
       <ShopByDesign shopByDesign={shopByDesign} />
       <ShopByOccasion shopByOccasion={shopByOccasion} />
-      {/* <GiftingGuide />
-      <WhyElinorJewels /> */}
+      <GiftingGuide data={giftingGuideData} />
+       <WhyElinorJewels />
     </>
   );
 }

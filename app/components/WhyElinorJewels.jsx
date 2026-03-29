@@ -3,8 +3,8 @@ import { StarIcon } from "../Icons/StarIcon";
 export const WhyElinorJewels = () => {
   return (
     <>
-      <section className="bg-accent">
-        <div className="py-8">
+      <section className="bg-[#FFF7EF]">
+        <div className="py-8 md:py-16">
           <p className="flex items-center justify-center text-lg gap-4">
             <span>
               <StarIcon />
