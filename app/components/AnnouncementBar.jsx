@@ -2,7 +2,7 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay, FreeMode } from "swiper/modules";
 import { useEffect, useRef } from "react";
 
-const SLIDE_COUNT = 30;
+const SLIDE_COUNT = 80;
 
 export function AnnouncementBar({ announcements = [] }) {
   const swiperRef = useRef(null);
