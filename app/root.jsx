@@ -15,6 +15,7 @@ import { Navebar } from "./components/Navebar";
 import { AnnouncementBar } from "./components/AnnouncementBar";
 import { shopifyGraphQL } from "./utils/shopify-admin";
 import { CartProvider } from "./context/CartContext";
+import { Footer } from "./components/Footer";
 
 export const links = () => [
   { rel: "preconnect", href: "https://fonts.googleapis.com" },
@@ -86,6 +87,7 @@ export default function App() {
         <AnnouncementBar announcements={announcements} />
         <Navebar />
         <Outlet />
+        <Footer />
       </CartProvider>
     </>
   );

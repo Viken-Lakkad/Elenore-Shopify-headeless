@@ -33,6 +33,45 @@ import {
   shopByOccasionQuery,
   shopByGiftingGuide,
 } from "../graphql/queries/Queries";
+import { NewsletterForm } from "../components/NewsletterForm";
+import { subscribeNewsletterMutation } from "../graphql/mutations/mutations";
+
+export async function action({ request }) {
+  const formData = await request.formData();
+  const email = formData.get("email");
+
+  if (!email) {
+    return { success: false, message: "Email is required." };
+  }
+
+  try {
+    const data = await shopifyGraphQL(subscribeNewsletterMutation, {
+      input: {
+        email,
+        acceptsMarketing: true,
+        password: crypto.randomUUID(), // ← Shopify requires this; user never logs in
+      },
+    });
+
+    const { customer, customerUserErrors } = data.customerCreate;
+
+    if (customerUserErrors?.length > 0) {
+      // Handle "already exists" gracefully
+      const alreadyExists = customerUserErrors.some((e) => e.code === "TAKEN");
+      if (alreadyExists) {
+        return { success: true, message: "You're already subscribed! 🎉" };
+      }
+      return { success: false, message: customerUserErrors[0].message };
+    }
+
+    return { success: true, message: "You're subscribed! 🎉" };
+  } catch (err) {
+    return {
+      success: false,
+      message: "Something went wrong. Please try again.",
+    };
+  }
+}
 
 export async function loader() {
   const metafieldData = await shopifyGraphQL(heroCollectionQuery);
@@ -161,7 +200,8 @@ export default function Home() {
       <ShopByDesign shopByDesign={shopByDesign} />
       <ShopByOccasion shopByOccasion={shopByOccasion} />
       <GiftingGuide data={giftingGuideData} />
-       <WhyElinorJewels />
+      <WhyElinorJewels /> 
+      <NewsletterForm />
     </>
   );
 }

@@ -11,13 +11,17 @@ export const GiftingGuide = ({ data }) => {
         {data.title?.value}
       </h2>
 
-      <div className="pt-6 grid grid-cols-2 md:grid-cols-4 gap-4 container m-auto">
+      <div className="pt-6 grid grid-cols-2 md:grid-cols-4 gap-4 container m-auto px-1.5">
         {data.card?.references?.nodes?.map((card, i) => {
           const image = card.image?.reference?.image;
           const collection = card.collection?.reference;
 
           return (
-            <Link key={i} to={`/collections/${collection?.handle}`}>
+            <Link
+              key={i}
+              className="mx-auto"
+              to={`/collections/${collection?.handle}`}
+            >
               <img src={image?.url} alt={image?.altText || ""} />
             </Link>
           );

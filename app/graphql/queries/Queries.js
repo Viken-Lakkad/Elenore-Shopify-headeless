@@ -799,7 +799,7 @@ export const shopByGiftingGuide = `
       
         title: field(key: "section_title") {
           value
-        }
+        } 
 
         card: field(key: "cards") {  
           references(first: 10) {
@@ -817,7 +817,7 @@ export const shopByGiftingGuide = `
                 }
               }
 
-              collection: field(key: "collection") {
+              collection: field(key: "Collection") {
                   reference {
                     ... on Collection {
                       id
@@ -832,7 +832,8 @@ export const shopByGiftingGuide = `
         } 
       }
     } 
-}`;
+  }
+`;
 
 export {
   heroCollectionQuery,
