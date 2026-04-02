@@ -186,8 +186,6 @@ export default function Home() {
     whyElinorJewels,
   } = useLoaderData();
 
-  // console.log("GiftingGuide-->",GiftingGuide);
-
   return (
     <>
       <Collection heroCollection={collections} />

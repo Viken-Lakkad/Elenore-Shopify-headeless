@@ -882,6 +882,52 @@ export const whyElinorJewelsQuery = `
   }
 `;
 
+// Shop Policy
+
+export const shippingPolicyQuery = `
+  query {
+    shop {
+      shippingPolicy {
+        title
+        body
+      }
+    }
+  }
+`;
+
+export const returnPolicyQuery = `
+  query {
+    shop {
+      refundPolicy {
+        title
+        body
+      }
+    }
+  }
+`;
+
+export const termsPolicyQuery = `
+  query {
+    shop {
+      termsOfService {
+        title
+        body
+      }
+    }
+  }
+`;
+
+export const privacyPolicyQuery = `
+  query {
+    shop {
+      privacyPolicy {
+        title
+        body
+      }
+    }
+  }
+`;
+
 export {
   heroCollectionQuery,
   collectionsByIdsQuery,
@@ -901,4 +947,8 @@ export {
   shopByOccasionQuery,
   shopByGiftingGuide,
   whyElinorJewelsQuery,
+  shippingPolicyQuery,
+  returnPolicyQuery,
+  termsPolicyQuery,
+  privacyPolicyQuery,
 };

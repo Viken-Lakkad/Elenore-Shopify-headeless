@@ -4,7 +4,6 @@ export const WhyElinorJewels = ({ whyElinorJewels }) => {
   const subTitle = whyElinorJewels?.subtitle?.value;
   const Title = whyElinorJewels?.title?.value;
   const cards = whyElinorJewels?.cards?.references?.nodes ?? [];
-  console.log("cards->", cards);
 
   return (
     <>

@@ -81,7 +81,7 @@ export async function loader({ params }) {
       })),
     },
     shopByDesign,
-    whyElinorJewels,
+    whyElinorJewels
   };
 }
 
