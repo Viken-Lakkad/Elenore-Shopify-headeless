@@ -835,6 +835,53 @@ export const shopByGiftingGuide = `
   }
 `;
 
+// WhyElinorJewels Choose Elinor query
+
+export const whyElinorJewelsQuery = `
+  query WhyElinorJewels {
+    metaobjects(type: "why_us", first: 1) {
+      nodes {
+        id
+        handle
+
+        subtitle: field(key: "subtitle") {
+          value
+        }
+
+        title: field(key: "title") {
+          value
+        }
+
+        cards: field(key: "cards") {
+          references(first: 10) {
+            nodes {
+              ... on Metaobject {
+                id
+                handle
+
+                cardTitle: field(key: "lable") {
+                  value
+                }
+
+                cardImage: field(key: "images") {
+                  reference {
+                    ... on MediaImage {
+                      image {
+                        url
+                        altText
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+`;
+
 export {
   heroCollectionQuery,
   collectionsByIdsQuery,
@@ -853,4 +900,5 @@ export {
   shopByDesignQuery,
   shopByOccasionQuery,
   shopByGiftingGuide,
+  whyElinorJewelsQuery,
 };

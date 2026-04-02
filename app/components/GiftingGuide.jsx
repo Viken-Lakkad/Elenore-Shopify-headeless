@@ -3,8 +3,6 @@ import { Link } from "react-router";
 export const GiftingGuide = ({ data }) => {
   if (!data) return null;
 
-  console.log("data", data.card);
-
   return (
     <section className="py-8">
       <h2 className="text-center font-streamline text-2xl sm:text-5xl">

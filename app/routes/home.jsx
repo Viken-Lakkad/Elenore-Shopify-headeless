@@ -32,6 +32,7 @@ import {
   shopByDesignQuery,
   shopByOccasionQuery,
   shopByGiftingGuide,
+  whyElinorJewelsQuery,
 } from "../graphql/queries/Queries";
 import { NewsletterForm } from "../components/NewsletterForm";
 import { subscribeNewsletterMutation } from "../graphql/mutations/mutations";
@@ -135,9 +136,11 @@ export async function loader() {
 
   // Gifting Guide
   const shopByGiftingGuideData = await shopifyGraphQL(shopByGiftingGuide);
-  const giftingGuideData =
-    shopByGiftingGuideData?.metaobjects?.nodes[0] ?? null;
+  const giftingGuideData = shopByGiftingGuideData?.metaobjects?.nodes[0] ?? null;
 
+  // Why Elinor Jewels
+  const whyElinorJewelsData = await shopifyGraphQL(whyElinorJewelsQuery);
+  const whyElinorJewels = whyElinorJewelsData?.metaobjects?.nodes?.[0] || null;
   return {
     collections,
     offerBanner,
@@ -153,6 +156,7 @@ export async function loader() {
     shopByDesign,
     shopByOccasion,
     giftingGuideData,
+    whyElinorJewels,
   };
 }
 
@@ -179,6 +183,7 @@ export default function Home() {
     shopByDesign,
     shopByOccasion,
     giftingGuideData,
+    whyElinorJewels,
   } = useLoaderData();
 
   // console.log("GiftingGuide-->",GiftingGuide);
@@ -200,7 +205,7 @@ export default function Home() {
       <ShopByDesign shopByDesign={shopByDesign} />
       <ShopByOccasion shopByOccasion={shopByOccasion} />
       <GiftingGuide data={giftingGuideData} />
-      <WhyElinorJewels /> 
+      <WhyElinorJewels whyElinorJewels={whyElinorJewels} />
       <NewsletterForm />
     </>
   );
