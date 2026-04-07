@@ -23,21 +23,19 @@ export const collectionsByIdsQuery = (ids) => `
 `;
 
 export const collectionByHandleQuery = `
-  query GetCollection($handle: String!) {
+    query CollectionByHandle($handle: String!) {
     collectionByHandle(handle: $handle) {
       id
       title
       description
-      image {
-        url
-        altText
-      }
-      products(first: 20) {
+      products(first: 100) {
         edges {
           node {
             id
             title
             handle
+            productType
+            tags
             featuredImage {
               url
               altText
@@ -46,6 +44,15 @@ export const collectionByHandleQuery = `
               minVariantPrice {
                 amount
                 currencyCode
+              }
+            }
+            options {
+              name
+              values
+            }
+            compareAtPriceRange {
+              minVariantPrice {
+                amount
               }
             }
           }
@@ -817,7 +824,7 @@ export const shopByGiftingGuide = `
                 }
               }
 
-              collection: field(key: "Collection") {
+              collection: field(key: "collection") {
                   reference {
                     ... on Collection {
                       id

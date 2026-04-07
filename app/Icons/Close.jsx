@@ -10,7 +10,7 @@ export const Close = () => {
           d="M0.749956 16.3829L16.3828 0.75"
           stroke="#292D32"
           strokeWidth="1.5"
-          stroke-miterlimit="10"
+          strokeMiterlimit="10"
           strokeLinecap="round"
           strokeLinejoin="round"
         />
@@ -18,7 +18,7 @@ export const Close = () => {
           d="M0.91597 0.922073L16.5488 16.5549"
           stroke="#292D32"
           strokeWidth="1.5"
-          stroke-miterlimit="10"
+          strokeMiterlimit="10"
           strokeLinecap="round"
           strokeLinejoin="round"
         />
