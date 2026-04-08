@@ -17,7 +17,6 @@ import { AnnouncementBar } from "./components/AnnouncementBar";
 import { shopifyGraphQL } from "./utils/shopify-admin";
 import { CartProvider } from "./context/CartContext";
 import { Footer } from "./components/Footer";
-import { Analytics } from "@vercel/analytics/remix";
 
 export const links = () => [
   { rel: "preconnect", href: "https://fonts.googleapis.com" },
@@ -73,7 +72,6 @@ export function Layout({ children }) {
         <Links />
       </head>
       <body>
-        <Analytics />
         {children}
         <ScrollRestoration />
         <Scripts />
