@@ -1,7 +1,7 @@
 export const OurStory = () => {
   return (
     <>
-      <div className="flex items-center gap-9 container m-auto py-8">
+      <div className="flex items-center gap-9 lg:container m-auto py-8 px-1.5">
         <div className="image_wrapper w-6/12 ">
           <img src="./OurStory.png" alt="OurStory" className="h-full w-full" />
         </div>

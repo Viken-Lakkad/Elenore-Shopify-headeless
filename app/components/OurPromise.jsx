@@ -1,7 +1,7 @@
 export const OurPromise = () => {
   return (
     <>
-      <div className="container m-auto py-8 flex gap-2">
+      <div className="lg:container px-1.5 m-auto py-8 flex gap-2">
         <div className="w-8/12 flex">
           <div className="w-1/2 bg-[#FFEAE6] p-6 ">
             <h2 className="font-streamline text-5xl">Our Promise</h2>

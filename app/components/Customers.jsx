@@ -87,7 +87,7 @@ export const Customers = ({ clientVideos }) => {
 
       {/* Desktop Grid */}
       <div className="hidden md:block pt-6">
-        <div className="container m-auto grid grid-cols-3 lg:grid-cols-4 gap-4">
+        <div className="lg:container px-1.5  m-auto grid grid-cols-3 lg:grid-cols-4 gap-4">
           {picks.slice(0, 4).map((pick, i) => (
             <VideoCard
               key={`desktop-${i}`}

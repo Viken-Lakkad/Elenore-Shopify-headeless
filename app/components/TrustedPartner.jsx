@@ -47,7 +47,7 @@ export const TrustedPartner = () => {
   return (
     <>
       <section className="py-3">
-        <div className="container m-auto   ">
+        <div className="lg:container m-auto  px-1.5 ">
           <div className="flex items-center gap-2">
             <div className="whitespace-nowrap w-2/12 font-inter font-semibold text-sm sm:text-2xl">
               As seen on

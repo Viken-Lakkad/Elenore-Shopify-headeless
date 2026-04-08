@@ -5,7 +5,7 @@ export const ShopByDesign = ({ shopByDesign }) => {
   const cards = shopByDesign?.card?.references?.nodes ?? [];
 
   return (
-    <section className="py-8 container m-auto">
+    <section className="py-8 lg:container m-auto px-1.5">
       <div className="grid grid-cols-1 xs:grid-cols-2 gap-4 px-2 md:px-0">
         <div className="flex items-center justify-center">
           <h2 className="text-center font-streamline text-2xl xs:text-3xl sm:text-5xl px-1.5 sm:px-0">

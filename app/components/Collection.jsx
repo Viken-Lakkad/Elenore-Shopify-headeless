@@ -8,7 +8,7 @@ export const Collection = ({ heroCollection }) => {
     : [];
 
   return (
-    <div className="container py-3 m-auto px-1.5">
+    <div className="lg:container py-3 m-auto px-1.5">
       <Swiper
         className="Collections"
         slidesPerView={3}

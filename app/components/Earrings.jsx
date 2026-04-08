@@ -18,7 +18,7 @@ export const Earrings = ({ earRings }) => {
           {title}
         </h2>
 
-        <div className="pt-6 px-1.5 grid grid-cols-2 md:grid-cols-4 gap-2 sm:gap-3 md:gap-4 container m-auto">
+        <div className="pt-6 px-1.5 grid grid-cols-2 md:grid-cols-4 gap-2 sm:gap-3 md:gap-4 lg:container m-auto">
           {products.map((product, id) => (
             <div key={id} className="product_warpper">
               <Link

@@ -15,7 +15,7 @@ export const CelebPicks = ({ celebPicks }) => {
       </h2>
 
       <div className="hidden md:block pt-10">
-        <div className="container m-auto grid grid-cols-4 gap-4">
+        <div className="lg:container m-auto px-1.5 grid grid-cols-4 gap-4">
           {picks.slice(0, 4).map((item, index) => (
             <img
               key={index}

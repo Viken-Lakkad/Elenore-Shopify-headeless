@@ -9,7 +9,7 @@ export const GiftingGuide = ({ data }) => {
         {data.title?.value}
       </h2>
 
-      <div className="pt-6 grid grid-cols-2 md:grid-cols-4 gap-4 container m-auto px-1.5">
+      <div className="pt-6 grid grid-cols-2 md:grid-cols-4 gap-4 lg:container m-auto px-1.5">
         {data.card?.references?.nodes?.map((card, i) => {
           const image = card.image?.reference?.image;
           const collection = card.collection?.reference;

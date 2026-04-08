@@ -18,7 +18,7 @@ export const NewsletterForm = () => {
   return (
     <section>
       <div className=" pt-8 pb-2 md:pt-16 md:pb-8 relative bg-[#FFF7EF] NewsletterForm">
-        <div className="container m-auto px-1.5 ">
+        <div className="lg:container m-auto px-1.5 ">
           <div className="w-full relative z-10 bg-linear-to-r from-[#6B1F3D] to-[#8B2F4D] rounded-3xl px-8 py-10 md:py-12 md:px-16 border border-accent">
             {/* useFetcher.Form — posts to the current route's action */}
             <fetcher.Form

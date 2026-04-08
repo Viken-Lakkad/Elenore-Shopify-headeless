@@ -9,7 +9,7 @@ export const OurDesigns = () => {
 
   return (
     <>
-      <div className="container m-auto py-8">
+      <div className="lg:container px-1.5 m-auto py-8">
         <h2 className="text-center font-streamline text-5xl">Our Designs</h2>
 
         <div className="flex justify-center items-start gap-4 pt-8">

@@ -39,7 +39,7 @@ export default function TermsOfService() {
   }
 
   return (
-    <div className="container m-auto py-10 px-1.5">
+    <div className="lg:container m-auto py-10 px-1.5">
       <h1 className="text-3xl lg:text-5xl font-extrabold mb-6 text-center font-ralesha">
         {termsPolicy.title}
       </h1>

@@ -14,11 +14,11 @@ export const Rings = ({ rings }) => {
   return (
     <>
       <section className="py-8">
-        <h2 className="text-center font-streamline text-2xl xs:text-3xl sm:text-5xl px-1.5 sm:px-0">
+        <h2 className="text-center font-streamline text-2xl xs:text-3xl sm:text-5xl px-1.5">
           {title}
         </h2>
 
-        <div className="pt-6 px-1.5 grid grid-cols-2 md:grid-cols-4 gap-2 sm:gap-3 md:gap-4 container m-auto">
+        <div className="pt-6 px-1.5 grid grid-cols-2 md:grid-cols-4 gap-2 sm:gap-3 md:gap-4 lg:container m-auto">
           {products.map((product) => (
             <div key={product.id} className="product_warpper">
               <Link

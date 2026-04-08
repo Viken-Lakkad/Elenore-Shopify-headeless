@@ -126,7 +126,7 @@ export const Navebar = () => {
 
   return (
     <>
-      <nav className="flex items-center justify-between container m-auto py-3 px-1.5">
+      <nav className="flex items-center justify-between lg:container m-auto py-3 px-1.5">
         <div className="flex items-center gap-2">
           <div className="h-6 w-6 cursor-pointer lg:hidden">
             <Menu />

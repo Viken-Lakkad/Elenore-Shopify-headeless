@@ -4,12 +4,12 @@ export const ShopByCategories = ({ shopCategories }) => {
   if (!shopCategories?.length) return null;
 
   return (
-    <section className="container m-auto py-7  md:py-14">
+    <section className="lg:container px-1.5 m-auto py-7  md:py-14">
       <h2 className="text-center font-streamline text-2xl xs:text-3xl sm:text-5xl px-1.5 sm:px-0">
         Shop by Categories
       </h2>
 
-      <div className="pt-5 md:pt-10  grid grid-cols-2 md:grid-cols-4 gap-3 xl:gap-4">
+      <div className="pt-5 md:pt-10 grid grid-cols-2 md:grid-cols-4 gap-3 xl:gap-4">
         {shopCategories.map((cat) => {
           const title = cat.title?.value;
           const image = cat.image?.reference?.image?.url;

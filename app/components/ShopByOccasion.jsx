@@ -9,7 +9,7 @@ export const ShopByOccasion = ({ shopByOccasion }) => {
   return (
     <>
       <section className="py-8">
-        <div className="px-1.5 grid grid-cols-2 lg:grid-cols-4 gap-2 sm:gap-3 md:gap-4 container m-auto">
+      <div className="px-1.5 grid grid-cols-2 lg:grid-cols-4 gap-2 sm:gap-3 md:gap-4 lg:container m-auto">
           <div className="flex flex-col justify-center">
             <h2 className="font-streamline text-2xl xs:text-3xl sm:text-5xl px-1.5 sm:px-0">
               {title}
