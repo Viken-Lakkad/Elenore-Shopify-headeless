@@ -7,6 +7,7 @@ import {
   ScrollRestoration,
   useLoaderData,
 } from "react-router";
+import { Analytics } from "@vercel/analytics/react";
 import "./app.css";
 import "swiper/css";
 import "swiper/css/navigation";
@@ -74,6 +75,7 @@ export function Layout({ children }) {
         {children}
         <ScrollRestoration />
         <Scripts />
+        <Analytics />
       </body>
     </html>
   );
