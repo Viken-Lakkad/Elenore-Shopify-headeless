@@ -1,4 +1,4 @@
-const heroCollectionQuery = `
+export const heroCollectionQuery = `
   query GetHeroCollection{
     shop {
       heroCollection: metafield(namespace: "custom", key: "collection_list") {
@@ -934,28 +934,3 @@ export const privacyPolicyQuery = `
     }
   }
 `;
-
-export {
-  heroCollectionQuery,
-  collectionsByIdsQuery,
-  collectionByHandleQuery,
-  productByHandleQuery,
-  offerBannerQuery,
-  heroBannerQuery,
-  shopCategoriesQuery,
-  celebPicksQuery,
-  customerReviewsQuery,
-  newArrivalQuery,
-  earRingsQuery,
-  ringsQuery,
-  jewelleryOrganiserBoxQuery,
-  clientVideoReviewQuery,
-  shopByDesignQuery,
-  shopByOccasionQuery,
-  shopByGiftingGuide,
-  whyElinorJewelsQuery,
-  shippingPolicyQuery,
-  returnPolicyQuery,
-  termsPolicyQuery,
-  privacyPolicyQuery,
-};
