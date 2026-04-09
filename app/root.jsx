@@ -8,7 +8,7 @@ import {
   useLoaderData,
 } from "react-router";
 import { Analytics } from "@vercel/analytics/react";
-import { SpeedInsights } from "@vercel/speed-insights/react";
+// import { SpeedInsights } from "@vercel/speed-insights/remix";
 import "./app.css";
 import "swiper/css";
 import "swiper/css/navigation";
@@ -77,7 +77,7 @@ export function Layout({ children }) {
         <ScrollRestoration />
         <Scripts />
         <Analytics />
-        <SpeedInsights />
+        {/* <SpeedInsights /> */}
       </body>
     </html>
   );

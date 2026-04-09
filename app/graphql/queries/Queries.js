@@ -934,3 +934,29 @@ export const privacyPolicyQuery = `
     }
   }
 `;
+
+// About us
+// about_us_benaer
+export const aboutUsBenaerQuery = `
+  query AboutUsBenaer {
+    metaobjects(type: "about_us_benaer", first: 1) {
+      nodes {
+        id
+
+        title: field(key: "title") {
+          value
+        } 
+
+        benaer: field(key: "benaer") {
+          reference {
+            ... on MediaImage {
+              image {
+                url
+                altText
+              }
+            }
+          }
+        }
+      }
+    }  
+}`;

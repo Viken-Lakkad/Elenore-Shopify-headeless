@@ -92,9 +92,9 @@ export function FilterSidebar({ filters, onFilterChange }) {
   if (!filters || filters.length === 0) return null;
 
   return (
-    <div className="w-full">
+    <div className="w-full sticky top-5">
       <div className="flex items-center justify-between mb-2">
-        <span className="font-proxima text-xs tracking-widest uppercase text-gray-400">
+        <span className="font-proxima text-base tracking-widest uppercase text-gray-400">
           Filters {totalSelected > 0 && `(${totalSelected})`}
         </span>
         {totalSelected > 0 && (
