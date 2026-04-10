@@ -3,7 +3,10 @@ import { AboutUs } from "../components/AboutUs";
 import { OurDesigns } from "../components/OurDesigns";
 import { OurPromise } from "../components/OurPromise";
 import { OurStory } from "../components/OurStory";
-import { aboutUsBenaerQuery } from "../graphql/queries/Queries";
+import {
+  aboutUsBenaerQuery,
+  getOurStoryQuery,
+} from "../graphql/queries/Queries";
 import { shopifyGraphQL } from "../utils/shopify-admin";
 
 export function meta() {
@@ -14,18 +17,22 @@ export async function loader() {
   const aboutUsBenaerData = await shopifyGraphQL(aboutUsBenaerQuery);
   const aboutUsBenaer = aboutUsBenaerData.metaobjects?.nodes?.[0] || null;
 
+  const ourStoryData = await shopifyGraphQL(getOurStoryQuery);
+  const ourStory = ourStoryData.metaobjects?.nodes?.[0] || null;
+
   return {
     aboutUsBenaer,
+    ourStory,
   };
 }
 
 export default function AboutUsPage() {
-  const { aboutUsBenaer } = useLoaderData();
-  
+  const { aboutUsBenaer, ourStory } = useLoaderData();
+
   return (
     <>
       <AboutUs aboutUsBenaer={aboutUsBenaer} />
-      <OurStory />
+      <OurStory ourStory={ourStory} />
       <OurDesigns />
       <OurPromise />
     </>

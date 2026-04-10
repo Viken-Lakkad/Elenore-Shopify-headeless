@@ -7,7 +7,7 @@ export const AboutUs = ({ aboutUsBenaer }) => {
 
   return (
     <div
-      className="bg-center bg-cover bg-no-repeat lg:container m-auto px-1.5"
+      className="bg-center bg-cover bg-no-repeat lg:container m-auto"
       style={
         bannerImage ? { backgroundImage: `url(${bannerImage})` } : undefined
       }

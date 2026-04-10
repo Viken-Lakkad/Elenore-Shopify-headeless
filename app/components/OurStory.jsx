@@ -1,29 +1,40 @@
-export const OurStory = () => {
+export const OurStory = ({ ourStory }) => {
+  if (!ourStory) return null;
+
+  const title = ourStory.title?.value;
+  const image = ourStory.image?.reference?.image?.url;
+  const imageAlt = ourStory.image?.reference?.image?.altText || "Our Story";
+  const paragraphs = JSON.parse(ourStory.paragraphs?.value || "[]");
+
   return (
     <>
-      <div className="flex items-center gap-9 lg:container m-auto py-8 px-1.5">
-        <div className="image_wrapper w-6/12 ">
-          <img src="./OurStory.png" alt="OurStory" className="h-full w-full" />
-        </div>
-        <div className="text_wrapper w-6/12 ">
-          <h2 className="font-streamline text-5xl">Our Story</h2>
-          <p className="mt-4">
-            Our Elinor Jewels pieces are curated especially for women by women
-            for everyday use; quite simply because “luxury should be a habit,
-            not a rarity.”
-          </p>
-          <p className="mt-2.5">
-            We at Elinor jewels believe functional fashion is the best attitude
-            to flaunt for the modern women. Our pieces are designed with utmost
-            care and extreme attention to detail in order to create inch perfect
-            jewelry pieces which go on to become your wardrobe staples that can
-            be cherished forever while also simultaneously aiming to enhance the
-            uniqueness for each and every of our beloved customers.
-          </p>
-          <p className="mt-2.5">
-            Embrace it, layer it, style it and let us help you create your own
-            unique jewelry collection.
-          </p>
+      <div className="lg:container m-auto py-8 px-4">
+        <div className="flex flex-col-reverse items-center gap-6 md:flex-row md:gap-9">
+          {/* Image */}
+          <div className="w-full md:w-6/12">
+            <img
+              src={image}
+              alt={imageAlt}
+              className="w-full h-auto object-cover rounded-md"
+            />
+          </div>
+
+          {/* Text */}
+          <div className="w-full md:w-6/12">
+            <h2 className="font-streamline text-3xl sm:text-4xl lg:text-5xl text-center md:text-left">
+              {title}
+            </h2>
+            {paragraphs.map((para, i) => (
+              <p
+                key={i}
+                className={`text-sm sm:text-base text-center md:text-left leading-relaxed text-gray-600 ${
+                  i === 0 ? "mt-4" : "mt-2.5"
+                }`}
+              >
+                {para}
+              </p>
+            ))}
+          </div>
         </div>
       </div>
     </>

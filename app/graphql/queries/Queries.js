@@ -936,7 +936,6 @@ export const privacyPolicyQuery = `
 `;
 
 // About us
-// about_us_benaer
 export const aboutUsBenaerQuery = `
   query AboutUsBenaer {
     metaobjects(type: "about_us_benaer", first: 1) {
@@ -960,3 +959,29 @@ export const aboutUsBenaerQuery = `
       }
     }  
 }`;
+
+export const getOurStoryQuery = `
+  query GetOurStory { 
+    metaobjects(type: "our_story", first: 1) {
+     nodes {
+        id
+      title: field(key: "story_title") {
+        value
+      }
+      image: field(key: "story_image") {
+        reference {
+          ... on MediaImage {
+            image {
+              url
+              altText
+            }
+          }
+        }
+      }
+      paragraphs: field(key: "story_paragraphs") {
+        value
+      }
+    }
+}
+  }
+`;
