@@ -965,23 +965,121 @@ export const getOurStoryQuery = `
     metaobjects(type: "our_story", first: 1) {
      nodes {
         id
-      title: field(key: "story_title") {
-        value
+        title: field(key: "story_title") {
+          value
+        }
+        image: field(key: "story_image") {
+          reference {
+            ... on MediaImage {
+              image {
+                url
+                altText
+              }
+            }
+          }
+        }
+        paragraphs: field(key: "story_paragraphs") {
+          value
+        }
       }
-      image: field(key: "story_image") {
-        reference {
-          ... on MediaImage {
-            image {
-              url
-              altText
+    }
+  }
+`;
+
+export const getOurDesignsQuery = `
+  query GetOurDesigns {
+    metaobjects(type: "our_designs", first: 1) {
+      nodes {
+        id
+        title: field(key: "title") {
+          value
+        }
+        images: field(key: "images") {
+          references(first: 10) {
+            nodes {
+              ... on MediaImage {
+                image {
+                  url
+                  altText
+                }
+              }
             }
           }
         }
       }
-      paragraphs: field(key: "story_paragraphs") {
-        value
+    }
+  }
+`;
+
+export const getOurPromiseQuery = `
+  query GetOurPromise {
+    metaobjects(type: "our_promise", first: 1) {
+      nodes {
+        id
+        title: field(key: "title") {
+          value
+        }
+        paragraphs: field(key: "paragraphs") {
+          value
+        }
+        buttonLabel: field(key: "button_label") {
+          value
+        }
+        buttonLink: field(key: "button_link") {
+          value
+        }
+        mainImage: field(key: "main_image") {
+          reference {
+            ... on MediaImage {
+              image {
+                url
+                altText
+              }
+            }
+          }
+        }
+        sideImage1: field(key: "side_image_1") {
+          reference {
+            ... on MediaImage {
+              image {
+                url
+                altText
+              }
+            }
+          }
+        }
+        sideImage2: field(key: "side_image_2") {
+          reference {
+            ... on MediaImage {
+              image {
+                url
+                altText
+              }
+            }
+          }
+        }
+        promiseFeatures: field(key: "promise_features") {
+          references(first: 10) {
+            nodes {
+              ... on Metaobject {
+                label: field(key: "label") {
+                  value
+                }
+                icon: field(key: "icon") {
+                  reference {
+                    ... on MediaImage {
+                      image {
+                        url
+                        altText
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
       }
     }
-}
   }
 `;

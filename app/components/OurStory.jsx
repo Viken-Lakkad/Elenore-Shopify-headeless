@@ -8,9 +8,8 @@ export const OurStory = ({ ourStory }) => {
 
   return (
     <>
-      <div className="lg:container m-auto py-8 px-4">
+      <div className="lg:container m-auto py-8 px-1.5">
         <div className="flex flex-col-reverse items-center gap-6 md:flex-row md:gap-9">
-          {/* Image */}
           <div className="w-full md:w-6/12">
             <img
               src={image}
@@ -19,7 +18,6 @@ export const OurStory = ({ ourStory }) => {
             />
           </div>
 
-          {/* Text */}
           <div className="w-full md:w-6/12">
             <h2 className="font-streamline text-3xl sm:text-4xl lg:text-5xl text-center md:text-left">
               {title}
@@ -27,7 +25,7 @@ export const OurStory = ({ ourStory }) => {
             {paragraphs.map((para, i) => (
               <p
                 key={i}
-                className={`text-sm sm:text-base text-center md:text-left leading-relaxed text-gray-600 ${
+                className={`text-sm sm:text-base text-center md:text-left leading-relaxed ${
                   i === 0 ? "mt-4" : "mt-2.5"
                 }`}
               >

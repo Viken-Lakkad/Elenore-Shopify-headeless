@@ -2,9 +2,6 @@ export const AboutUs = ({ aboutUsBenaer }) => {
   const title = aboutUsBenaer?.title?.value || "About Us";
   const bannerImage = aboutUsBenaer?.benaer?.reference?.image?.url || null;
 
-  console.log("title ->", title);
-  console.log("bannerImage ->", bannerImage);
-
   return (
     <div
       className="bg-center bg-cover bg-no-repeat lg:container m-auto"

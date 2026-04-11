@@ -1,28 +1,54 @@
-export const OurDesigns = () => {
-  const designs = [
-    { src: "OurDesigns1.png", alt: "OurDesigns1" },
-    { src: "OurDesigns2.png", alt: "OurDesigns2" },
-    { src: "OurDesigns3.png", alt: "OurDesigns3" },
-    { src: "OurDesigns4.png", alt: "OurDesigns4" },
-    { src: "OurDesigns5.png", alt: "OurDesigns5" },
-  ];
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Autoplay } from "swiper/modules";
+import "swiper/css";
+
+export const OurDesigns = ({ ourDesigns }) => {
+  const title = ourDesigns?.title?.value;
+  const imageNodes = ourDesigns?.images?.references?.nodes ?? [];
 
   return (
-    <>
-      <div className="lg:container px-1.5 m-auto py-8">
-        <h2 className="text-center font-streamline text-5xl">Our Designs</h2>
+    <div className="lg:container px-1.5 m-auto py-8">
+      <h2 className="text-center font-streamline text-5xl">{title}</h2>
 
-        <div className="flex justify-center items-start gap-4 pt-8">
-          {designs.map((design, index) => (
-            <img
-              key={index} 
-              src={design.src}
-              alt={design.alt}
-              className="w-1/5 even:mt-10"
-            />
-          ))}
-        </div>
+      {/* Desktop */}
+      <div className="hidden md:flex justify-center items-start gap-4 pt-8">
+        {imageNodes.map((node, index) => (
+          <img
+            key={index}
+            src={node.image.url}
+            alt={node.image.altText ?? `Design ${index + 1}`}
+            className="w-1/5 even:mt-10"
+          />
+        ))}
       </div>
-    </>
+
+      {/* Mobile */}
+      <div className="block md:hidden pt-5 sm:pt-10">
+        <Swiper
+          slidesPerView={2.5}
+          spaceBetween={8}
+          centeredSlides
+          loop
+          speed={2500}
+          autoplay={{
+            delay: 0,
+            disableOnInteraction: false,
+          }}
+          modules={[Autoplay]}
+          className="OurDesigns"
+        >
+          {imageNodes.map((node, index) => (
+            <SwiperSlide key={index}>
+              <img
+                src={node.image.url}
+                alt={node.image.altText ?? `Design ${index + 1}`}
+                className="w-full h-full object-cover"
+                loading="lazy"
+              />
+            </SwiperSlide>
+          ))}
+        </Swiper>
+      </div>
+    </div>
   );
 };
