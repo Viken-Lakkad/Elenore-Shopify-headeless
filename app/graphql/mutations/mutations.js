@@ -15,3 +15,21 @@ export const subscribeNewsletterMutation = `
     }
   }
 `;
+
+export const contactFormMutation = `
+  mutation customerCreate($input: CustomerCreateInput!) {
+    customerCreate(input: $input) {
+      customer {
+        id
+        firstName
+        lastName
+        email
+      }
+      customerUserErrors {
+        code
+        field
+        message
+      }
+    }
+  }
+`;

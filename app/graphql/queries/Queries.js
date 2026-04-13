@@ -1083,3 +1083,30 @@ export const getOurPromiseQuery = `
     }
   }
 `;
+
+// Elinor Partnerships
+
+export const getElinorPartnershipsQuery = `
+  query GetElinorPartnerships {
+    metaobjects(type: "elinor_partnerships", first: 1) {
+      nodes {
+        id
+        title: field(key: "title") {
+          value
+        }
+        images: field(key: "images") {
+          references(first: 10) {
+            nodes {
+              ... on MediaImage {
+                image {
+                  url
+                  altText
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+`;

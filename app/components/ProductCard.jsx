@@ -19,10 +19,10 @@ const ProductCard = ({ product }) => {
           </div>
         )}
       </div>
-      <div className="mt-1">
+      <div className="mt-1">  
         <p className="text-sm font-semibold text-black">{product.title}</p>
         <p className="text-sm text-[#747474]">
-          {product.currency} {parseFloat(product.price).toFixed(2)}
+          ₹{parseFloat(product.price).toFixed(2)}
         </p>
       </div>
     </Link>
