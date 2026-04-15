@@ -23,12 +23,24 @@ export const collectionsByIdsQuery = (ids) => `
 `;
 
 export const collectionByHandleQuery = `
-    query CollectionByHandle($handle: String!) {
+  query CollectionByHandle(
+    $handle: String!
+    $first: Int
+    $last: Int
+    $after: String
+    $before: String
+  ) {
     collectionByHandle(handle: $handle) {
       id
       title
       description
-      products(first: 100) {
+      products(first: $first, last: $last, after: $after, before: $before) {
+        pageInfo {
+          hasNextPage
+          hasPreviousPage
+          startCursor
+          endCursor
+        }
         edges {
           node {
             id

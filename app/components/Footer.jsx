@@ -14,12 +14,12 @@ const categories = [
 ];
 
 const supportLinks = [
-  { label: "FAQs", path: "/faqs" },
-  { label: "Jewellery Care", path: "/jewellery-care" },
-  { label: "Shipping & Delivery", path: "/shipping" },
-  { label: "Privacy Policy", path: "/privacy-policy" },
   { label: "About Us", path: "/about" },
-  { label: "Terms & Conditions", path: "/terms" },
+  { label: "FAQs", path: "/faqs" },
+  { label: "Return & Refund", path: "/return-and-refund" },
+  { label: "Shipping & Delivery", path: "/shipping-policy" },
+  { label: "Privacy Policy", path: "/privacy-policy" },
+  { label: "Terms & Conditions", path: "/terms-of-service" },
 ];
 
 const socialLinks = [

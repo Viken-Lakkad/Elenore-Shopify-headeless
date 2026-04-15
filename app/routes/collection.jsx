@@ -13,6 +13,9 @@ import { NewsletterForm } from "../components/NewsletterForm";
 import { subscribeNewsletterMutation } from "../graphql/mutations/mutations";
 import { Filters } from "../Icons/Filters";
 import { FilterSidebar } from "../components/FilterSidebar";
+import { Pagination } from "../components/Pagination";
+
+const PAGE_SIZE = 12;
 
 export async function action({ request }) {
   const formData = await request.formData();
@@ -31,7 +34,7 @@ export async function action({ request }) {
       },
     });
 
-    const { customer, customerUserErrors } = data.customerCreate;
+    const { customerUserErrors } = data.customerCreate;
 
     if (customerUserErrors?.length > 0) {
       const alreadyExists = customerUserErrors.some((e) => e.code === "TAKEN");
@@ -50,7 +53,7 @@ export async function action({ request }) {
   }
 }
 
-// ── Helper: build price buckets from actual min/max
+// ── Helper: build price buckets from actual min/max ──────────────────────────
 function buildPriceBuckets(min, max, currency) {
   if (min === max) return [];
   const sym = currency === "INR" ? "₹" : "$";
@@ -80,19 +83,34 @@ function buildPriceBuckets(min, max, currency) {
   return buckets;
 }
 
-export async function loader({ params }) {
+// ── Loader ───────────────────────────────────────────────────────────────────
+export async function loader({ params, request }) {
   const { handle } = params;
+  const url = new URL(request.url);
 
-  const data = await shopifyGraphQL(collectionByHandleQuery, { handle });
+  const after  = url.searchParams.get("after")  || null;
+  const before = url.searchParams.get("before") || null;
+
+  // Going backwards uses `last + before`, going forwards uses `first + after`
+  const paginationVars = before
+    ? { last: PAGE_SIZE, before }
+    : { first: PAGE_SIZE, after };
+
+  const data = await shopifyGraphQL(collectionByHandleQuery, {
+    handle,
+    ...paginationVars,
+  });
+
   const collection = data?.collectionByHandle;
 
   if (!collection) {
     throw new Response("Collection Not Found", { status: 404 });
   }
 
+  const { pageInfo, edges } = collection.products;
+
   // Map products with all filter-relevant fields
-  const products = collection.products.edges.map((edge) => {
-    const node = edge.node;
+  const products = edges.map(({ node }) => {
     const price = parseFloat(node.priceRange.minVariantPrice.amount);
     const compareAt = parseFloat(
       node.compareAtPriceRange?.minVariantPrice?.amount || 0,
@@ -118,6 +136,7 @@ export async function loader({ params }) {
     };
   });
 
+  // ── Build dynamic filters from current page products ──
   const productTypes = [
     ...new Set(products.map((p) => p.productType).filter(Boolean)),
   ];
@@ -153,11 +172,10 @@ export async function loader({ params }) {
 
   const prices = products.map((p) => p.price);
   const currency = products[0]?.currency || "INR";
-  const priceBuckets = buildPriceBuckets(
-    Math.min(...prices),
-    Math.max(...prices),
-    currency,
-  );
+  const priceBuckets =
+    prices.length > 0
+      ? buildPriceBuckets(Math.min(...prices), Math.max(...prices), currency)
+      : [];
 
   const dynamicFilters = [
     productTypes.length > 0 && {
@@ -183,7 +201,7 @@ export async function loader({ params }) {
     },
   ].filter(Boolean);
 
-  // Shop by design & Why Elinor Jewels
+  // ── Shop by design & Why Elinor Jewels ──
   const shopByDesignData = await shopifyGraphQL(shopByDesignQuery);
   const shopByDesign = shopByDesignData?.metaobjects?.nodes[0] ?? null;
 
@@ -196,6 +214,7 @@ export async function loader({ params }) {
       title: collection.title,
       description: collection.description,
       products,
+      pageInfo, // ← hasPreviousPage, hasNextPage, startCursor, endCursor
     },
     dynamicFilters,
     shopByDesign,
@@ -210,13 +229,13 @@ export function meta({ data }) {
   ];
 }
 
-export default function CollectionPage() {
+export default function collection() {
   const { collection, dynamicFilters, shopByDesign, whyElinorJewels } =
     useLoaderData();
 
   const [activeFilters, setActiveFilters] = useState({});
 
-  // Apply active filters to products
+  // Apply active filters to the current page's products
   const filteredProducts = collection.products.filter((product) => {
     // Product Type
     if (
@@ -273,6 +292,7 @@ export default function CollectionPage() {
   return (
     <>
       <div className="py-8">
+        {/* Collection Header */}
         <div className="mb-8 pb-8 text-center border-b border-[#D6D6D6]">
           <h1 className="container mx-auto text-5xl font-streamline font-thin">
             {collection.title}
@@ -290,6 +310,7 @@ export default function CollectionPage() {
           </p>
         ) : (
           <div className="container mx-auto">
+            {/* Filter toggle label */}
             <div>
               <div className="inline-flex px-4 py-2 gap-2 border border-[#D6D6D6] items-center mb-6">
                 <span className="h-5 w-5 text-black">
@@ -300,7 +321,7 @@ export default function CollectionPage() {
             </div>
 
             <div className="px-1.5 flex justify-center container mx-auto gap-6">
-              {/* Dynamic Filter Sidebar */}
+              {/* Filter Sidebar */}
               <div className="w-3/12">
                 <FilterSidebar
                   filters={dynamicFilters}
@@ -308,7 +329,7 @@ export default function CollectionPage() {
                 />
               </div>
 
-              {/* Products Grid */}
+              {/* Products Grid + Pagination */}
               <div className="w-9/12">
                 {filteredProducts.length === 0 ? (
                   <p className="text-center text-gray-400 mt-12 font-proxima">
@@ -321,6 +342,7 @@ export default function CollectionPage() {
                     ))}
                   </div>
                 )}
+                <Pagination pageInfo={collection.pageInfo} />
               </div>
             </div>
           </div>

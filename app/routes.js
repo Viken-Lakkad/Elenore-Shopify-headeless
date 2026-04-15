@@ -7,7 +7,7 @@ export default [
   route("wishlist", "routes/wishlist.jsx"),
   route("contactus", "routes/contactus.jsx"),
   route("partnerships", "routes/partnerships.jsx"),
-  route("shop-policy", "routes/ShopPolicy.jsx"),
+  route("shipping-policy", "routes/ShopPolicy.jsx"),
   route("return-and-refund", "routes/ReturnAndRefund.jsx"),
   route("terms-of-service", "routes/TermsOfService.jsx"),
   route("privacy-policy", "routes/PrivacyPolicy.jsx"),
