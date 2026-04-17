@@ -53,7 +53,6 @@ export async function action({ request }) {
   }
 }
 
-// ── Helper: build price buckets from actual min/max ──────────────────────────
 function buildPriceBuckets(min, max, currency) {
   if (min === max) return [];
   const sym = currency === "INR" ? "₹" : "$";
@@ -83,7 +82,6 @@ function buildPriceBuckets(min, max, currency) {
   return buckets;
 }
 
-// ── Loader ───────────────────────────────────────────────────────────────────
 export async function loader({ params, request }) {
   const { handle } = params;
   const url = new URL(request.url);
@@ -91,7 +89,6 @@ export async function loader({ params, request }) {
   const after  = url.searchParams.get("after")  || null;
   const before = url.searchParams.get("before") || null;
 
-  // Going backwards uses `last + before`, going forwards uses `first + after`
   const paginationVars = before
     ? { last: PAGE_SIZE, before }
     : { first: PAGE_SIZE, after };
@@ -109,7 +106,6 @@ export async function loader({ params, request }) {
 
   const { pageInfo, edges } = collection.products;
 
-  // Map products with all filter-relevant fields
   const products = edges.map(({ node }) => {
     const price = parseFloat(node.priceRange.minVariantPrice.amount);
     const compareAt = parseFloat(
@@ -136,7 +132,6 @@ export async function loader({ params, request }) {
     };
   });
 
-  // ── Build dynamic filters from current page products ──
   const productTypes = [
     ...new Set(products.map((p) => p.productType).filter(Boolean)),
   ];
@@ -201,7 +196,6 @@ export async function loader({ params, request }) {
     },
   ].filter(Boolean);
 
-  // ── Shop by design & Why Elinor Jewels ──
   const shopByDesignData = await shopifyGraphQL(shopByDesignQuery);
   const shopByDesign = shopByDesignData?.metaobjects?.nodes[0] ?? null;
 
@@ -214,7 +208,7 @@ export async function loader({ params, request }) {
       title: collection.title,
       description: collection.description,
       products,
-      pageInfo, // ← hasPreviousPage, hasNextPage, startCursor, endCursor
+      pageInfo,
     },
     dynamicFilters,
     shopByDesign,
@@ -234,17 +228,15 @@ export default function collection() {
     useLoaderData();
 
   const [activeFilters, setActiveFilters] = useState({});
+  const [mobileFilterOpen, setMobileFilterOpen] = useState(false); // 👈 new
 
-  // Apply active filters to the current page's products
   const filteredProducts = collection.products.filter((product) => {
-    // Product Type
     if (
       activeFilters.productType?.length > 0 &&
       !activeFilters.productType.includes(product.productType)
     )
       return false;
 
-    // Color
     if (activeFilters.color?.length > 0) {
       const productColors = product.options
         .filter((o) => /colou?r/i.test(o.name))
@@ -253,7 +245,6 @@ export default function collection() {
         return false;
     }
 
-    // Material
     if (activeFilters.material?.length > 0) {
       const productMaterials = product.options
         .filter((o) => /material/i.test(o.name))
@@ -262,7 +253,6 @@ export default function collection() {
         return false;
     }
 
-    // Discount
     if (activeFilters.discount?.length > 0) {
       const minRequired = Math.min(
         ...activeFilters.discount.map((d) => parseInt(d)),
@@ -270,7 +260,6 @@ export default function collection() {
       if (product.discountPercent < minRequired) return false;
     }
 
-    // Price Range
     if (activeFilters.price?.length > 0) {
       const sym = product.currency === "INR" ? "₹" : "$";
       const inRange = activeFilters.price.some((bucket) => {
@@ -310,19 +299,22 @@ export default function collection() {
           </p>
         ) : (
           <div className="container mx-auto">
-            {/* Filter toggle label */}
+            {/* Filter Button */}
             <div>
-              <div className="inline-flex px-4 py-2 gap-2 border border-[#D6D6D6] items-center mb-6">
+              <button
+                onClick={() => setMobileFilterOpen(true)}
+                className="inline-flex px-4 py-2 gap-2 border border-[#D6D6D6] items-center mb-6"
+              >
                 <span className="h-5 w-5 text-black">
                   <Filters />
                 </span>
                 <p className="text-base font-proxima text-gray-500">Filter</p>
-              </div>
+              </button>
             </div>
 
             <div className="px-1.5 flex justify-center container mx-auto gap-6">
-              {/* Filter Sidebar */}
-              <div className="w-3/12">
+              {/* Desktop Sidebar — hidden on mobile */}
+              <div className="hidden lg:block w-3/12">
                 <FilterSidebar
                   filters={dynamicFilters}
                   onFilterChange={setActiveFilters}
@@ -330,7 +322,7 @@ export default function collection() {
               </div>
 
               {/* Products Grid + Pagination */}
-              <div className="w-9/12">
+              <div className="w-full lg:w-9/12">
                 {filteredProducts.length === 0 ? (
                   <p className="text-center text-gray-400 mt-12 font-proxima">
                     No products match your selected filters.
@@ -348,6 +340,53 @@ export default function collection() {
           </div>
         )}
       </div>
+
+      {/* ── Mobile Filter Drawer ── */}
+      {/* Overlay backdrop */}
+      <div
+        onClick={() => setMobileFilterOpen(false)}
+        className={`fixed inset-0 bg-black/40 z-40 transition-opacity duration-300 lg:hidden ${
+          mobileFilterOpen ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"
+        }`}
+      />
+
+      {/* Sliding drawer from left */}
+      <div
+        className={`fixed top-0 left-0 h-full w-[80vw] max-w-sm bg-white z-50 shadow-xl transform transition-transform duration-300 ease-in-out lg:hidden ${
+          mobileFilterOpen ? "translate-x-0" : "-translate-x-full"
+        }`}
+      >
+        {/* Drawer header */}
+        <div className="flex items-center justify-between px-4 py-4 border-b border-[#D6D6D6]">
+          <div className="flex items-center gap-2">
+            <span className="h-5 w-5 text-black">
+              <Filters />
+            </span>
+            <p className="text-base font-proxima text-gray-700 font-semibold">
+              Filters
+            </p>
+          </div>
+          <button
+            onClick={() => setMobileFilterOpen(false)}
+            className="text-gray-500 hover:text-black text-2xl leading-none"
+            aria-label="Close filters"
+          >
+            &times;
+          </button>
+        </div>
+
+        {/* Drawer body — scrollable */}
+        <div className="overflow-y-auto h-[calc(100%-64px)] p-4">
+          <FilterSidebar
+            filters={dynamicFilters}
+            onFilterChange={(filters) => {
+              setActiveFilters(filters);
+              setMobileFilterOpen(false); // auto-close after selecting on mobile
+            }}
+          />
+        </div>
+      </div>
+
       <ShopByDesign shopByDesign={shopByDesign} />
       <WhyElinorJewels whyElinorJewels={whyElinorJewels} />
       <NewsletterForm />
