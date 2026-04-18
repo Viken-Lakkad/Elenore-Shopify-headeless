@@ -353,7 +353,6 @@ export const Navebar = () => {
           ))}
         </div>
 
-        {/* Right: Icons */}
         <div className="flex items-center gap-2">
           <div className="h-5 w-5 cursor-pointer">
             <SearchIcon />
@@ -361,9 +360,9 @@ export const Navebar = () => {
           <div className="h-5 w-5 cursor-pointer">
             <UserIcon />
           </div>
-          <div className="h-5 w-5 cursor-pointer">
+          <Link to="/wishlist" className="h-5 w-5 cursor-pointer">
             <HeartIcon />
-          </div>
+          </Link>
           <div
             className="h-5 w-5 cursor-pointer relative"
             onClick={() => setIsCartOpen(true)}
