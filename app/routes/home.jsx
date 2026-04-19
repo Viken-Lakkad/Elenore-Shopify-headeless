@@ -24,6 +24,9 @@ import {
   shopCategoriesQuery,
   celebPicksQuery,
   customerReviewsQuery,
+  GetAllNewArrivals,
+  GetAllEarrings,
+  GetAllRings,
   newArrivalQuery,
   earRingsQuery,
   ringsQuery,
@@ -36,6 +39,7 @@ import {
 } from "../graphql/queries/Queries";
 import { NewsletterForm } from "../components/NewsletterForm";
 import { subscribeNewsletterMutation } from "../graphql/mutations/mutations";
+import ProductCollections from "../components/ProductCollections";
 
 export async function action({ request }) {
   const formData = await request.formData();
@@ -106,6 +110,14 @@ export async function loader() {
   const customerReviews = customerReviewsData.metaobjects?.nodes || [];
 
   // Fetch new arrivals
+  const newCollectionsData = await shopifyGraphQL(GetAllNewArrivals);
+  const newCollections = newCollectionsData.metaobjects?.nodes || [];
+
+  // Fetch earrings
+  const earringsData = await shopifyGraphQL(GetAllEarrings);
+  const earrings = earringsData.metaobjects?.nodes || [];
+
+  // Fetch new arrivals
   const newArrivalData = await shopifyGraphQL(newArrivalQuery);
   const newArrivals = newArrivalData.metaobjects?.nodes?.[0] || null;
 
@@ -136,7 +148,8 @@ export async function loader() {
 
   // Gifting Guide
   const shopByGiftingGuideData = await shopifyGraphQL(shopByGiftingGuide);
-  const giftingGuideData = shopByGiftingGuideData?.metaobjects?.nodes[0] ?? null;
+  const giftingGuideData =
+    shopByGiftingGuideData?.metaobjects?.nodes[0] ?? null;
 
   // Why Elinor Jewels
   const whyElinorJewelsData = await shopifyGraphQL(whyElinorJewelsQuery);
@@ -148,7 +161,9 @@ export async function loader() {
     shopCategories,
     celebPicks,
     customerReviews,
+    newCollections,
     newArrivals,
+    earrings,
     earRings,
     rings,
     organiserBox,
@@ -163,7 +178,7 @@ export async function loader() {
 export function meta() {
   return [
     { title: "Elinor Jewels" },
-    { name: "description", content: "Welcome to Elinor Jewels!" },
+    { name: "description",  content: "Welcome to Elinor Jewels!" },
   ];
 }
 
@@ -175,7 +190,9 @@ export default function Home() {
     shopCategories,
     celebPicks,
     customerReviews,
+    newCollections,
     newArrivals,
+    earrings,
     earRings,
     rings,
     organiserBox,
@@ -196,6 +213,8 @@ export default function Home() {
       <CelebPicks celebPicks={celebPicks} />
       <Customers clientVideos={clientVideoReviews} />
       <Tagline customerReviews={customerReviews} />
+      {/* <ProductCollections collectionsData={newCollections} />
+      <ProductCollections collectionsData={earrings} /> */}
       <NewArrival newArrivals={newArrivals} />
       <Earrings earRings={earRings} />
       <Rings rings={rings} />

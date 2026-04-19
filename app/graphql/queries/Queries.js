@@ -377,6 +377,72 @@ export const newArrivalQuery = `
   }
 `;
 
+export const GetAllNewArrivals = `{
+  metaobjects(type: "new_arrival", first: 1) {
+    nodes {
+      id
+      handle
+      title: field(key: "title") {
+        value
+      }
+      products: field(key: "productes") {
+        references(first: 4) {
+          nodes {
+            ... on Product {
+              id
+              title
+              handle
+              featuredImage {
+                url
+                altText
+              }
+              priceRange {
+                minVariantPrice {
+                  amount
+                  currencyCode
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}`;
+
+export const GetAllEarrings = `{
+  metaobjects(type: "earrings", first: 1) {
+    nodes {
+      id
+      handle
+      title: field(key: "title") {
+        value
+      }
+      products: field(key: "productes") {
+        references(first: 4) {
+          nodes {
+            ... on Product {
+              id
+              title
+              handle
+              featuredImage {
+                url
+                altText
+              }
+              priceRange {
+                minVariantPrice {
+                  amount
+                  currencyCode
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}`;
+
 // Show earrings
 export const earRingsQuery = `
   query earRingsCollection {
@@ -471,6 +537,39 @@ export const earRingsQuery = `
       }
     }
   }`;
+
+  export const GetAllRings = `{
+  metaobjects(type: "rings", first: 1) {
+    nodes {
+      id
+      handle
+      title: field(key: "title") {
+        value
+      }
+      products: field(key: "productes") {
+        references(first: 4) {
+          nodes {
+            ... on Product {
+              id
+              title
+              handle
+              featuredImage {
+                url
+                altText
+              }
+              priceRange {
+                minVariantPrice {
+                  amount
+                  currencyCode
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}`;
 
 // Show rings products showncase 3
 export const ringsQuery = `
