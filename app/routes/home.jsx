@@ -25,8 +25,6 @@ import {
   celebPicksQuery,
   customerReviewsQuery,
   GetAllNewArrivals,
-  GetAllEarrings,
-  GetAllRings,
   clientVideoReviewQuery,
   shopByDesignQuery,
   shopByOccasionQuery,

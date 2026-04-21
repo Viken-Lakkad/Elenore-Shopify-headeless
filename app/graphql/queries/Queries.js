@@ -257,7 +257,6 @@ export const customerReviewsQuery = `
 `;
 
 // Celeb Picks
-
 export const celebPicksQuery = `
   query CelebPicks {
     metaobjects(type: "celeb_picks", first: 1) {
@@ -281,7 +280,7 @@ export const celebPicksQuery = `
     }
   }`;
 
-
+// New Arrivals Query
 export const GetAllNewArrivals = `{
   metaobjects(type: "new_arrival", first: 1) {
     nodes {
@@ -315,76 +314,8 @@ export const GetAllNewArrivals = `{
   }
 }`;
 
-export const GetAllEarrings = `{
-  metaobjects(type: "earrings", first: 1) {
-    nodes {
-      id
-      handle
-      title: field(key: "title") {
-        value
-      }
-      products: field(key: "productes") {
-        references(first: 4) {
-          nodes {
-            ... on Product {
-              id
-              title
-              handle
-              featuredImage {
-                url
-                altText
-              }
-              priceRange {
-                minVariantPrice {
-                  amount
-                  currencyCode
-                }
-              }
-            }
-          }
-        }
-      }
-    }
-  }
-}`;
-
-// Show earrings
-  export const GetAllRings = `{
-  metaobjects(type: "rings", first: 1) {
-    nodes {
-      id
-      handle
-      title: field(key: "title") {
-        value
-      }
-      products: field(key: "productes") {
-        references(first: 4) {
-          nodes {
-            ... on Product {
-              id
-              title
-              handle
-              featuredImage {
-                url
-                altText
-              }
-              priceRange {
-                minVariantPrice {
-                  amount
-                  currencyCode
-                }
-              }
-            }
-          }
-        }
-      }
-    }
-  }
-}`;
-
 
 // Custome video review query
-
 export const clientVideoReviewQuery = `
   query CustomerVideoReviews {
     metaobjects(type: "customer_reviews_with_video", first: 1) {
@@ -417,7 +348,6 @@ export const clientVideoReviewQuery = `
 `;
 
 // Shopbydesign query
-
 export const shopByDesignQuery = `
   query ShopByDesign {
     metaobjects(type:"shop_by_design", first: 1) {
@@ -468,7 +398,6 @@ export const shopByDesignQuery = `
 `;
 
 // Shop by Occasion
-
 export const shopByOccasionQuery = `
   query ShopByOccasion {
     metaobjects(type:"shop_by_occasion", first: 1) {
