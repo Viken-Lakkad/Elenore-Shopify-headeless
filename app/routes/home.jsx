@@ -27,10 +27,6 @@ import {
   GetAllNewArrivals,
   GetAllEarrings,
   GetAllRings,
-  newArrivalQuery,
-  earRingsQuery,
-  ringsQuery,
-  jewelleryOrganiserBoxQuery,
   clientVideoReviewQuery,
   shopByDesignQuery,
   shopByOccasionQuery,
@@ -113,26 +109,6 @@ export async function loader() {
   const newCollectionsData = await shopifyGraphQL(GetAllNewArrivals);
   const newCollections = newCollectionsData.metaobjects?.nodes || [];
 
-  // Fetch earrings
-  const earringsData = await shopifyGraphQL(GetAllEarrings);
-  const earrings = earringsData.metaobjects?.nodes || [];
-
-  // Fetch new arrivals
-  const newArrivalData = await shopifyGraphQL(newArrivalQuery);
-  const newArrivals = newArrivalData.metaobjects?.nodes?.[0] || null;
-
-  // organiser Box
-  const organiserData = await shopifyGraphQL(jewelleryOrganiserBoxQuery);
-  const organiserBox = organiserData.metaobjects?.nodes?.[0] || null;
-
-  // Fetch rings collection
-  const ringsData = await shopifyGraphQL(ringsQuery);
-  const rings = ringsData.metaobjects?.nodes?.[0] || null;
-
-  // Fetch earRings collection
-  const earRingsData = await shopifyGraphQL(earRingsQuery);
-  const earRings = earRingsData.metaobjects?.nodes?.[0] || null;
-
   // Fetch client video reviews
   const clientVideoReviewData = await shopifyGraphQL(clientVideoReviewQuery);
   const clientVideoReviews =
@@ -154,6 +130,7 @@ export async function loader() {
   // Why Elinor Jewels
   const whyElinorJewelsData = await shopifyGraphQL(whyElinorJewelsQuery);
   const whyElinorJewels = whyElinorJewelsData?.metaobjects?.nodes?.[0] || null;
+
   return {
     collections,
     offerBanner,
@@ -162,11 +139,6 @@ export async function loader() {
     celebPicks,
     customerReviews,
     newCollections,
-    newArrivals,
-    earrings,
-    earRings,
-    rings,
-    organiserBox,
     clientVideoReviews,
     shopByDesign,
     shopByOccasion,
@@ -178,7 +150,7 @@ export async function loader() {
 export function meta() {
   return [
     { title: "Elinor Jewels" },
-    { name: "description",  content: "Welcome to Elinor Jewels!" },
+    { name: "description", content: "Welcome to Elinor Jewels!" },
   ];
 }
 
@@ -191,11 +163,6 @@ export default function Home() {
     celebPicks,
     customerReviews,
     newCollections,
-    newArrivals,
-    earrings,
-    earRings,
-    rings,
-    organiserBox,
     clientVideoReviews,
     shopByDesign,
     shopByOccasion,
@@ -213,12 +180,7 @@ export default function Home() {
       <CelebPicks celebPicks={celebPicks} />
       <Customers clientVideos={clientVideoReviews} />
       <Tagline customerReviews={customerReviews} />
-      {/* <ProductCollections collectionsData={newCollections} />
-      <ProductCollections collectionsData={earrings} /> */}
-      <NewArrival newArrivals={newArrivals} />
-      <Earrings earRings={earRings} />
-      <Rings rings={rings} />
-      <OrganiserBox organiserBox={organiserBox} />
+      <ProductCollections collectionsData={newCollections} />
       <ShopByDesign shopByDesign={shopByDesign} />
       <ShopByOccasion shopByOccasion={shopByOccasion} />
       <GiftingGuide data={giftingGuideData} />
