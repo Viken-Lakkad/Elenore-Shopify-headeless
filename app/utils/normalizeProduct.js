@@ -1,7 +1,8 @@
-// utils/normalizeProduct.js
 export const normalizeProduct = (shopifyProduct) => {
-  const price = shopifyProduct.priceRange?.minVariantPrice?.amount ?? "0";
-  const compareAt = shopifyProduct.priceRange?.maxVariantPrice?.amount ?? "0";
+  const firstVariant = shopifyProduct.variants?.nodes?.[0];
+  const price = shopifyProduct.priceRange?.minVarian;
+  const compareAt = firstVariant?.compareAtPrice?.amount ?? "0";
+
   const discountPercent =
     parseFloat(compareAt) > parseFloat(price)
       ? Math.round(

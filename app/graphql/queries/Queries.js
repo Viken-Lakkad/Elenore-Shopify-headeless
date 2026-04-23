@@ -306,6 +306,14 @@ export const GetAllNewArrivals = `{
                   currencyCode
                 }
               }
+              variants(first: 1) {
+                nodes {
+                  compareAtPrice {
+                    amount
+                    currencyCode
+                  }
+                }
+              }
             }
           }
         }
