@@ -322,6 +322,128 @@ export const GetAllNewArrivals = `{
   }
 }`;
 
+export const GetAllEarrings = `{
+  metaobjects(type: "earrings", first: 1) {
+    nodes {
+      id
+      handle
+      title: field(key: "title") {
+        value
+      }
+      products: field(key: "productes") {
+        references(first: 4) {
+          nodes {
+            ... on Product {
+              id
+              title
+              handle
+              featuredImage {
+                url
+                altText
+              }
+              priceRange {
+                minVariantPrice {
+                  amount
+                  currencyCode
+                }
+              }
+              variants(first: 1) {
+                nodes {
+                  compareAtPrice {
+                    amount
+                    currencyCode
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}`;
+
+export const GetAllRings = `{
+  metaobjects(type: "rings", first: 1) {
+    nodes {
+      id
+      handle
+      title: field(key: "title") {
+        value
+      }
+      products: field(key: "productes") {
+        references(first: 4) {
+          nodes {
+            ... on Product {
+              id
+              title
+              handle
+              featuredImage {
+                url
+                altText
+              }
+              priceRange {
+                minVariantPrice {
+                  amount
+                  currencyCode
+                }
+              }
+              variants(first: 1) {
+                nodes {
+                  compareAtPrice {
+                    amount
+                    currencyCode
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}`;
+
+export const GetAllOrganiserBox = `{
+  metaobjects(type: "jewellery_organiser_box", first: 1) {
+    nodes {
+      id
+      handle
+      title: field(key: "title") {
+        value
+      }
+      products: field(key: "productes") {
+        references(first: 4) {
+          nodes {
+            ... on Product {
+              id
+              title
+              handle
+              featuredImage {
+                url
+                altText
+              }
+              priceRange {
+                minVariantPrice {
+                  amount
+                  currencyCode
+                }
+              }
+              variants(first: 1) {
+                nodes {
+                  compareAtPrice {
+                    amount
+                    currencyCode
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}`;
 
 // Custome video review query
 export const clientVideoReviewQuery = `

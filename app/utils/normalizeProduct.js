@@ -1,6 +1,8 @@
+
+
 export const normalizeProduct = (shopifyProduct) => {
   const firstVariant = shopifyProduct.variants?.nodes?.[0];
-  const price = shopifyProduct.priceRange?.minVarian;
+  const price = shopifyProduct.priceRange?.minVariantPrice?.amount ?? "0";
   const compareAt = firstVariant?.compareAtPrice?.amount ?? "0";
 
   const discountPercent =

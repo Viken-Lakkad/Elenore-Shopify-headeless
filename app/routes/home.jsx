@@ -25,6 +25,9 @@ import {
   celebPicksQuery,
   customerReviewsQuery,
   GetAllNewArrivals,
+  GetAllEarrings,
+  GetAllRings,
+  GetAllOrganiserBox,
   clientVideoReviewQuery,
   shopByDesignQuery,
   shopByOccasionQuery,
@@ -107,6 +110,18 @@ export async function loader() {
   const newCollectionsData = await shopifyGraphQL(GetAllNewArrivals);
   const newCollections = newCollectionsData.metaobjects?.nodes || [];
 
+  // Fetch earrings
+  const earringsData = await shopifyGraphQL(GetAllEarrings);
+  const earrings = earringsData.metaobjects?.nodes || [];
+
+  // Fetch rings
+  const ringsData = await shopifyGraphQL(GetAllRings);
+  const rings = ringsData.metaobjects?.nodes || [];
+
+  // Fetch organiser boxes
+  const organiserBoxData = await shopifyGraphQL(GetAllOrganiserBox);
+  const organiserBoxes = organiserBoxData.metaobjects?.nodes || [];
+
   // Fetch client video reviews
   const clientVideoReviewData = await shopifyGraphQL(clientVideoReviewQuery);
   const clientVideoReviews =
@@ -137,6 +152,9 @@ export async function loader() {
     celebPicks,
     customerReviews,
     newCollections,
+    earrings,
+    rings,
+    organiserBoxes,
     clientVideoReviews,
     shopByDesign,
     shopByOccasion,
@@ -161,6 +179,9 @@ export default function Home() {
     celebPicks,
     customerReviews,
     newCollections,
+    earrings,
+    rings,
+    organiserBoxes,
     clientVideoReviews,
     shopByDesign,
     shopByOccasion,
@@ -179,6 +200,9 @@ export default function Home() {
       <Customers clientVideos={clientVideoReviews} />
       <Tagline customerReviews={customerReviews} />
       <ProductCollections collectionsData={newCollections} />
+      <ProductCollections collectionsData={earrings} />
+      <ProductCollections collectionsData={rings} /> 
+      <ProductCollections collectionsData={organiserBoxes} />
       <ShopByDesign shopByDesign={shopByDesign} />
       <ShopByOccasion shopByOccasion={shopByOccasion} />
       <GiftingGuide data={giftingGuideData} />
