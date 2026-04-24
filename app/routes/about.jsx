@@ -12,27 +12,30 @@ import {
 import { shopifyGraphQL } from "../utils/shopify-admin";
 
 export function meta() {
-  return [{ title: "About Us" }, { name: "description", content: "About Us" }];
+  return [
+    { title: "About Us | Brand Name" },
+    {
+      name: "description",
+      content:
+        "Discover the story behind Brand Name — our promise, our designs, and the values that drive everything we create.",
+    },
+  ];
 }
 
 export async function loader() {
-  const aboutUsBenaerData = await shopifyGraphQL(aboutUsBenaerQuery);
-  const aboutUsBenaer = aboutUsBenaerData.metaobjects?.nodes?.[0] || null;
-
-  const ourStoryData = await shopifyGraphQL(getOurStoryQuery);
-  const ourStory = ourStoryData.metaobjects?.nodes?.[0] || null;
-
-  const ourDesignsData = await shopifyGraphQL(getOurDesignsQuery);
-  const ourDesigns = ourDesignsData.metaobjects?.nodes?.[0] || null;
-
-  const ourPromiseData = await shopifyGraphQL(getOurPromiseQuery);
-  const ourPromise = ourPromiseData.metaobjects?.nodes?.[0] || null;
+  const [aboutUsBenaerData, ourStoryData, ourDesignsData, ourPromiseData] =
+    await Promise.all([
+      shopifyGraphQL(aboutUsBenaerQuery),
+      shopifyGraphQL(getOurStoryQuery),
+      shopifyGraphQL(getOurDesignsQuery),
+      shopifyGraphQL(getOurPromiseQuery),
+    ]);
 
   return {
-    aboutUsBenaer,
-    ourStory,
-    ourDesigns,
-    ourPromise,
+    aboutUsBenaer: aboutUsBenaerData.metaobjects?.nodes?.[0] ?? null,
+    ourStory: ourStoryData.metaobjects?.nodes?.[0] ?? null,
+    ourDesigns: ourDesignsData.metaobjects?.nodes?.[0] ?? null,
+    ourPromise: ourPromiseData.metaobjects?.nodes?.[0] ?? null,
   };
 }
 

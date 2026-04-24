@@ -2,7 +2,6 @@ import ProductCard from "./ProductCard";
 import { normalizeProduct } from "../utils/normalizeProduct";
 
 const ProductCollections = ({ collectionsData }) => {
-  console.log("collectionsData", collectionsData);
 
   return (
     <>
