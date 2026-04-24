@@ -14,8 +14,10 @@ import { ShopByCategories } from "../components/ShopByCategories";
 import { ShopByDesign } from "../components/ShopByDesign";
 import { ShopByOccasion } from "../components/ShopByOccasion";
 import { Tagline } from "../components/Tagline";
-import { TrustedPartner } from "../components/TrustedPartner";
 import { WhyElinorJewels } from "../components/WhyElinorJewels";
+import { NewsletterForm } from "../components/NewsletterForm";
+import ProductCollections from "../components/ProductCollections";
+
 import {
   heroCollectionQuery,
   collectionsByIdsQuery,
@@ -34,9 +36,25 @@ import {
   shopByGiftingGuide,
   whyElinorJewelsQuery,
 } from "../graphql/queries/Queries";
-import { NewsletterForm } from "../components/NewsletterForm";
 import { subscribeNewsletterMutation } from "../graphql/mutations/mutations";
-import ProductCollections from "../components/ProductCollections";
+const safeParse = (str, fallback) => {
+  try {
+    return JSON.parse(str);
+  } catch {
+    return fallback;
+  }
+};
+
+export function meta() {
+  return [
+    { title: "Elinor Jewels — Handcrafted Jewellery for Every Occasion" },
+    {
+      name: "description",
+      content:
+        "Shop Elinor Jewels for handcrafted rings, earrings, and gifting collections. Celeb-loved designs delivered across India.",
+    },
+  ];
+}
 
 export async function action({ request }) {
   const formData = await request.formData();
@@ -51,14 +69,13 @@ export async function action({ request }) {
       input: {
         email,
         acceptsMarketing: true,
-        password: crypto.randomUUID(), // ← Shopify requires this; user never logs in
+        password: crypto.randomUUID(),
       },
     });
 
-    const { customer, customerUserErrors } = data.customerCreate;
+    const { customerUserErrors } = data.customerCreate;
 
     if (customerUserErrors?.length > 0) {
-      // Handle "already exists" gracefully
       const alreadyExists = customerUserErrors.some((e) => e.code === "TAKEN");
       if (alreadyExists) {
         return { success: true, message: "You're already subscribed! 🎉" };
@@ -67,7 +84,7 @@ export async function action({ request }) {
     }
 
     return { success: true, message: "You're subscribed! 🎉" };
-  } catch (err) {
+  } catch {
     return {
       success: false,
       message: "Something went wrong. Please try again.",
@@ -77,9 +94,40 @@ export async function action({ request }) {
 
 export async function loader() {
   const metafieldData = await shopifyGraphQL(heroCollectionQuery);
-  const ids = JSON.parse(metafieldData.shop.heroCollection.value);
-
-  const collectionsData = await shopifyGraphQL(collectionsByIdsQuery(ids));
+  const ids = safeParse(metafieldData.shop.heroCollection.value, []);
+  const [
+    collectionsData,
+    offerBannerData,
+    heroBannerData,
+    shopCategoriesData,
+    celebPicksData,
+    customerReviewsData,
+    newCollectionsData,
+    earringsData,
+    ringsData,
+    organiserBoxData,
+    clientVideoReviewData,
+    shopByDesignData,
+    shopByOccasionData,
+    shopByGiftingGuideData,
+    whyElinorJewelsData,
+  ] = await Promise.all([
+    shopifyGraphQL(collectionsByIdsQuery(ids)),
+    shopifyGraphQL(offerBannerQuery),
+    shopifyGraphQL(heroBannerQuery),
+    shopifyGraphQL(shopCategoriesQuery),
+    shopifyGraphQL(celebPicksQuery),
+    shopifyGraphQL(customerReviewsQuery),
+    shopifyGraphQL(GetAllNewArrivals),
+    shopifyGraphQL(GetAllEarrings),
+    shopifyGraphQL(GetAllRings),
+    shopifyGraphQL(GetAllOrganiserBox),
+    shopifyGraphQL(clientVideoReviewQuery),
+    shopifyGraphQL(shopByDesignQuery),
+    shopifyGraphQL(shopByOccasionQuery),
+    shopifyGraphQL(shopByGiftingGuide),
+    shopifyGraphQL(whyElinorJewelsQuery),
+  ]);
 
   const collections = collectionsData.nodes.filter(Boolean).map((col) => ({
     id: col.id,
@@ -89,85 +137,23 @@ export async function loader() {
     linkUrl: `/collections/${col.handle}`,
   }));
 
-  const offerBannerData = await shopifyGraphQL(offerBannerQuery);
-  const offerBanner = offerBannerData.metaobjects?.nodes || [];
-
-  const heroBannerData = await shopifyGraphQL(heroBannerQuery);
-  const heroBanner = heroBannerData.metaobjects?.nodes?.[0] || null;
-
-  const shopCategoriesData = await shopifyGraphQL(shopCategoriesQuery);
-  const shopCategories = shopCategoriesData.metaobjects?.nodes || [];
-
-  // Fetch celeb picks
-  const celebPicksData = await shopifyGraphQL(celebPicksQuery);
-  const celebPicks = celebPicksData.metaobjects?.nodes?.[0] || null;
-
-  // Fetch customer reviews
-  const customerReviewsData = await shopifyGraphQL(customerReviewsQuery);
-  const customerReviews = customerReviewsData.metaobjects?.nodes || [];
-
-  // Fetch new arrivals
-  const newCollectionsData = await shopifyGraphQL(GetAllNewArrivals);
-  const newCollections = newCollectionsData.metaobjects?.nodes || [];
-
-  // Fetch earrings
-  const earringsData = await shopifyGraphQL(GetAllEarrings);
-  const earrings = earringsData.metaobjects?.nodes || [];
-
-  // Fetch rings
-  const ringsData = await shopifyGraphQL(GetAllRings);
-  const rings = ringsData.metaobjects?.nodes || [];
-
-  // Fetch organiser boxes
-  const organiserBoxData = await shopifyGraphQL(GetAllOrganiserBox);
-  const organiserBoxes = organiserBoxData.metaobjects?.nodes || [];
-
-  // Fetch client video reviews
-  const clientVideoReviewData = await shopifyGraphQL(clientVideoReviewQuery);
-  const clientVideoReviews =
-    clientVideoReviewData.metaobjects?.nodes[0] || null;
-
-  // Shop by design data
-  const shopByDesignData = await shopifyGraphQL(shopByDesignQuery);
-  const shopByDesign = shopByDesignData?.metaobjects?.nodes[0] ?? null;
-
-  // Shop by occasion data
-  const shopByOccasionData = await shopifyGraphQL(shopByOccasionQuery);
-  const shopByOccasion = shopByOccasionData?.metaobjects?.nodes[0] ?? null;
-
-  // Gifting Guide
-  const shopByGiftingGuideData = await shopifyGraphQL(shopByGiftingGuide);
-  const giftingGuideData =
-    shopByGiftingGuideData?.metaobjects?.nodes[0] ?? null;
-
-  // Why Elinor Jewels
-  const whyElinorJewelsData = await shopifyGraphQL(whyElinorJewelsQuery);
-  const whyElinorJewels = whyElinorJewelsData?.metaobjects?.nodes?.[0] || null;
-
   return {
     collections,
-    offerBanner,
-    heroBanner,
-    shopCategories,
-    celebPicks,
-    customerReviews,
-    newCollections,
-    earrings,
-    rings,
-    organiserBoxes,
-    clientVideoReviews,
-    shopByDesign,
-    shopByOccasion,
-    giftingGuideData,
-    whyElinorJewels,
+    offerBanner: offerBannerData.metaobjects?.nodes || [],
+    heroBanner: heroBannerData.metaobjects?.nodes?.[0] ?? null,
+    shopCategories: shopCategoriesData.metaobjects?.nodes || [],
+    celebPicks: celebPicksData.metaobjects?.nodes?.[0] ?? null,
+    customerReviews: customerReviewsData.metaobjects?.nodes || [],
+    newCollections: newCollectionsData.metaobjects?.nodes || [],
+    earrings: earringsData.metaobjects?.nodes || [],
+    rings: ringsData.metaobjects?.nodes || [],
+    organiserBoxes: organiserBoxData.metaobjects?.nodes || [],
+    clientVideoReviews: clientVideoReviewData.metaobjects?.nodes[0] ?? null,
+    shopByDesign: shopByDesignData?.metaobjects?.nodes[0] ?? null,
+    shopByOccasion: shopByOccasionData?.metaobjects?.nodes[0] ?? null,
+    giftingGuideData: shopByGiftingGuideData?.metaobjects?.nodes[0] ?? null,
+    whyElinorJewels: whyElinorJewelsData?.metaobjects?.nodes?.[0] ?? null,
   };
-}
-
-export function meta() {
-  return [
-    { title: "Elinor Jewels" },
-    { name: "description", content: "Welcome to Elinor Jewels!" },
-  ];
 }
 
 export default function Home() {
@@ -194,14 +180,13 @@ export default function Home() {
       <Collection heroCollection={collections} />
       <OffersBanners offerBanner={offerBanner} />
       <Hero heroBanner={heroBanner} />
-      {/* <TrustedPartner /> */}
       <ShopByCategories shopCategories={shopCategories} />
       <CelebPicks celebPicks={celebPicks} />
       <Customers clientVideos={clientVideoReviews} />
       <Tagline customerReviews={customerReviews} />
       <ProductCollections collectionsData={newCollections} />
       <ProductCollections collectionsData={earrings} />
-      <ProductCollections collectionsData={rings} /> 
+      <ProductCollections collectionsData={rings} />
       <ProductCollections collectionsData={organiserBoxes} />
       <ShopByDesign shopByDesign={shopByDesign} />
       <ShopByOccasion shopByOccasion={shopByOccasion} />
