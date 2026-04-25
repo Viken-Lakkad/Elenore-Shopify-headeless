@@ -47,7 +47,7 @@ const safeParse = (str, fallback) => {
 
 export function meta() {
   return [
-    { title: "Elinor Jewels — Handcrafted Jewellery for Every Occasion" },
+    { title: "Elinor Jewels Handcrafted Jewellery for Every Occasion" },
     {
       name: "description",
       content:

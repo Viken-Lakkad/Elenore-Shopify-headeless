@@ -52,7 +52,6 @@ export const Hero = ({ heroBanner }) => {
           )}
         </div>
 
-        {/* ── Center image + overlay ──────────────────────────────────────── */}
         <div className="w-full xs:w-4/12 relative">
           {centerImageRef?.url && (
             <img
