@@ -32,7 +32,6 @@ export const ShopByCategories = ({ shopCategories }) => {
                   width={600}
                   height={400}
                   loading={isPriority ? "eager" : "lazy"}
-                  fetchPriority={isPriority ? "high" : "auto"}
                   decoding={isPriority ? "sync" : "async"}
                 />
               )}

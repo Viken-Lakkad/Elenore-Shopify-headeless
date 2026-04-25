@@ -68,7 +68,6 @@ const ProductCard = ({
               width={400}
               height={500}
               loading={priority ? "eager" : "lazy"}
-              fetchPriority={priority ? "high" : "auto"}
               decoding={priority ? "sync" : "async"}
             />
           ) : (

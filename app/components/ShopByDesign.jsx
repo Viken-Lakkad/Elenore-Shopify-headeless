@@ -3,7 +3,7 @@ import { Link } from "react-router";
 export const ShopByDesign = ({ shopByDesign }) => {
   const sectionTitle = shopByDesign?.title?.value;
   const cards = shopByDesign?.card?.references?.nodes ?? [];
-  
+
   if (!sectionTitle && !cards.length) return null;
 
   return (
@@ -48,15 +48,12 @@ export const ShopByDesign = ({ shopByDesign }) => {
                 width={600}
                 height={800}
                 loading={isPriority ? "eager" : "lazy"}
-                fetchPriority={isPriority ? "high" : "auto"}
                 decoding={isPriority ? "sync" : "async"}
               />
 
               <Link
                 to={url}
-                className="absolute inset-0 z-10 flex items-end pb-5 pl-3.5
-                           focus-visible:outline focus-visible:outline-2
-                           focus-visible:outline-white focus-visible:outline-offset-[-3px]"
+                className="absolute inset-0 z-10 flex items-end pb-5 pl-3.5 focus-visible:outline focus-visible:outline-2 focus-visible:outline-white focus-visible:outline-offset-[-3px]"
                 aria-label={
                   subtitle ? `Shop ${title} – ${subtitle}` : `Shop ${title}`
                 }

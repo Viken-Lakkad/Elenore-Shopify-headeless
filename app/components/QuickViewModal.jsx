@@ -1,4 +1,5 @@
 import { Link } from "react-router";
+import { useEffect, useRef } from "react";
 
 const TruckIcon = () => (
   <svg
@@ -7,6 +8,7 @@ const TruckIcon = () => (
     viewBox="0 0 24 24"
     stroke="currentColor"
     strokeWidth={1.5}
+    aria-hidden="true"
   >
     <path
       strokeLinecap="round"
@@ -24,35 +26,66 @@ const FEATURES = [
 ];
 
 const QuickViewModal = ({ product, onClose, onAddToCart }) => {
+  const modalRef = useRef(null);
+
+  useEffect(() => {
+    // Lock scroll
+    document.body.style.overflow = "hidden";
+
+    // ESC close
+    const handleKey = (e) => {
+      if (e.key === "Escape") onClose();
+    };
+
+    document.addEventListener("keydown", handleKey);
+
+    return () => {
+      document.body.style.overflow = "";
+      document.removeEventListener("keydown", handleKey);
+    };
+  }, [onClose]);
+
   if (!product) return null;
 
   const hasDiscount = parseFloat(product.compareAt) > parseFloat(product.price);
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 px-4"
+      className="fixed inset-0 z-50 bg-black/50 flex items-end md:items-center justify-center"
       onClick={onClose}
+      role="dialog"
+      aria-modal="true"
     >
       <div
-        className="relative bg-white rounded-2xl shadow-2xl flex overflow-hidden w-full max-w-5xl h-full max-h-[60vh]"
+        ref={modalRef}
         onClick={(e) => e.stopPropagation()}
+        className="
+          relative bg-white w-full md:max-w-5xl 
+          h-[90vh] md:h-auto md:max-h-[80vh]
+          rounded-t-2xl md:rounded-2xl 
+          flex flex-col md:flex-row overflow-hidden
+        "
       >
         {/* Close */}
         <button
           onClick={onClose}
-          aria-label="Close"
-          className="absolute top-3 right-4 text-gray-400 hover:text-gray-700 text-2xl leading-none z-10"
+          aria-label="Close modal"
+          className="absolute top-3 right-4 text-gray-400 hover:text-gray-700 text-2xl z-10"
         >
           ×
         </button>
 
         {/* Image */}
-        <div className="shrink-0 bg-[#f5f0e8] flex-1 items-center justify-center p-6">
+        <div className="bg-[#f5f0e8] w-full md:w-1/2 flex items-center justify-center p-4 md:p-6">
           {product.image ? (
             <img
-              src={product.image}
-              alt={product.altText}
-              className="w-full object-contain h-full"
+              src={`${product.image}&width=600`}
+              alt={product.altText || product.title}
+              width="600"
+              height="600"
+              loading="eager"
+              decoding="async"
+              className="w-full h-auto max-h-[40vh] md:max-h-[60vh] object-contain"
             />
           ) : (
             <div className="text-gray-300 text-sm">No Image</div>
@@ -60,19 +93,20 @@ const QuickViewModal = ({ product, onClose, onAddToCart }) => {
         </div>
 
         {/* Info */}
-        <div className="flex flex-col p-6 flex-1 gap-3 overflow-y-auto">
+        <div className="flex flex-col p-4 md:p-6 w-full md:w-1/2 gap-3 overflow-y-auto">
           <div>
-            <h2 className="text-3xl font-bold text-gray-900 leading-snug">
+            <h2 className="text-xl md:text-3xl font-bold text-gray-900">
               {product.title}
             </h2>
+
             {product.material && (
-              <p className="text-sm text-gray-400 mt-0.5">{product.material}</p>
+              <p className="text-sm text-gray-400 mt-1">{product.material}</p>
             )}
           </div>
 
           <div>
             {hasDiscount && (
-              <div className="flex items-center gap-3 mb-1">
+              <div className="flex items-center gap-2 mb-1">
                 <p className="text-sm text-gray-400 line-through">
                   ₹{parseFloat(product.compareAt).toFixed(2)}
                 </p>
@@ -81,16 +115,15 @@ const QuickViewModal = ({ product, onClose, onAddToCart }) => {
                 </span>
               </div>
             )}
-            <p className="text-xl font-bold text-gray-900">
+
+            <p className="text-lg md:text-xl font-bold text-gray-900">
               ₹{parseFloat(product.price).toFixed(2)}
             </p>
           </div>
 
           <div className="flex items-center gap-2">
-            <span className="text-yellow-400 text-base tracking-tight">
-              ★★★★★
-            </span>
-            <span className="text-sm text-gray-500">
+            <span className="text-yellow-400">★★★★★</span>
+            <span className="text-xs md:text-sm text-gray-500">
               1,000+ Happy Customers
             </span>
           </div>
@@ -100,7 +133,7 @@ const QuickViewModal = ({ product, onClose, onAddToCart }) => {
               onAddToCart?.(product);
               onClose();
             }}
-            className="w-full bg-[#6b2737] hover:bg-[#5a1f2e] text-white text-sm font-bold tracking-widest uppercase py-3.5 rounded-md transition-colors"
+            className="w-full bg-[#6b2737] hover:bg-[#5a1f2e] text-white text-sm font-bold uppercase py-3 rounded-md transition"
           >
             Add to Cart
           </button>
@@ -112,10 +145,10 @@ const QuickViewModal = ({ product, onClose, onAddToCart }) => {
             </span>
           </div>
 
-          <div className="grid grid-cols-2 gap-x-6 gap-y-2.5 pt-1 border-t border-gray-100">
+          <div className="grid grid-cols-2 gap-3 pt-2 border-t border-gray-100">
             {FEATURES.map(({ icon, label }) => (
               <div key={label} className="flex items-center gap-2">
-                <span className="text-base">{icon}</span>
+                <span>{icon}</span>
                 <span className="text-xs text-gray-500">{label}</span>
               </div>
             ))}
@@ -124,7 +157,7 @@ const QuickViewModal = ({ product, onClose, onAddToCart }) => {
           <Link
             to={`/products/${product.handle}`}
             onClick={onClose}
-            className="text-xs text-center text-gray-400 underline underline-offset-2 hover:text-gray-600"
+            className="text-xs text-center text-gray-400 underline hover:text-gray-600"
           >
             View full details →
           </Link>

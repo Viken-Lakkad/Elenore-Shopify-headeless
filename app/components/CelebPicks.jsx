@@ -54,7 +54,6 @@ export const CelebPicks = ({ celebPicks }) => {
                   width={600}
                   height={600}
                   loading={isPriority ? "eager" : "lazy"}
-                  fetchPriority={isPriority ? "high" : "auto"}
                   decoding={isPriority ? "sync" : "async"}
                 />
               </SwiperSlide>
