@@ -8,7 +8,7 @@ import {
   useLoaderData,
 } from "react-router";
 import { Analytics } from "@vercel/analytics/react";
-// import { SpeedInsights } from "@vercel/speed-insights/remix";
+import { SpeedInsights } from "@vercel/speed-insights/react";
 import "./app.css";
 import "swiper/css";
 import "swiper/css/navigation";
@@ -18,7 +18,6 @@ import { AnnouncementBar } from "./components/AnnouncementBar";
 import { shopifyGraphQL } from "./utils/shopify-admin";
 import { CartProvider } from "./context/CartContext";
 import { Footer } from "./components/Footer";
-import { useEffect } from "react";
 
 export async function loader() {
   try {
@@ -65,7 +64,7 @@ export function Layout({ children }) {
         <ScrollRestoration />
         <Scripts />
         <Analytics />
-        {/* <SpeedInsights /> */}
+        <SpeedInsights />
       </body>
     </html>
   );
@@ -73,10 +72,6 @@ export function Layout({ children }) {
 
 export default function App() {
   const { announcements } = useLoaderData();
-  useEffect(() => {
-    // Trigger error after mount
-    myUndefinedFunction();
-  }, []);
   return (
     <>
       <CartProvider>
