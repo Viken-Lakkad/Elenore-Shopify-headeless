@@ -18,6 +18,7 @@ import { AnnouncementBar } from "./components/AnnouncementBar";
 import { shopifyGraphQL } from "./utils/shopify-admin";
 import { CartProvider } from "./context/CartContext";
 import { Footer } from "./components/Footer";
+import { useEffect } from "react";
 
 export async function loader() {
   try {
@@ -72,6 +73,10 @@ export function Layout({ children }) {
 
 export default function App() {
   const { announcements } = useLoaderData();
+  useEffect(() => {
+    // Trigger error after mount
+    myUndefinedFunction();
+  }, []);
   return (
     <>
       <CartProvider>
